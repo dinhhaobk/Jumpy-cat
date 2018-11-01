@@ -22,15 +22,18 @@ CAT_DIR = "./Resources/Sprites/Cat/"
 PLAYER_ACC = 0.5
 PLAYER_FRICTION = -0.12
 PLAYER_GRAV = 0.8
-PLAYER_JUMP = 20
-PLAYER_SCALE = [80, 120]
+PLAYER_JUMP = 18
+PLAYER_SCALE = [60, 90]
 
 # List of grounds
-GROUND_LIST = [(0, HEIGHT - 60),
+GROUND_LIST_TYPE1 = [(0, HEIGHT - 60),
                  (WIDTH / 2 - 50, HEIGHT * 3 / 4 - 50),
                  (125, HEIGHT - 350),
                  (350, 200),
                  (175, 100)]
+GROUND_LIST_TYPE2 = []
+GROUND_LIST_TYPE3 = []
+GROUND_LIST_TYPE4 = []
 
 # Colors
 WHITE = (255, 255, 255)

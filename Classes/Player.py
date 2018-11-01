@@ -23,6 +23,8 @@ class Player(pg.sprite.Sprite):
 
         self.current_frame = 0
         self.last_update = 0
+        self.checkJumpAni = False
+        self.checkFallAni = False
 
         self.load_images()
         self.image = self.idle_frames_r[0]
@@ -151,10 +153,6 @@ class Player(pg.sprite.Sprite):
             self.vel.x = 0
         self.pos += self.vel + 0.5 * self.acc
 
-        # Not let cat go out of left screen
-        if self.pos.x < 0:
-            self.pos.x = 0
-
         self.rect.midbottom = self.pos
 
     # Handle animation of cat
@@ -195,7 +193,7 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = bottom
 
         # Walk animation
-        if self.isWalk:
+        if self.isWalk and not self.isJump:
             if self.isRight:
                 self.image = self.walk_frames_r[(self.current_frame + 1) % len(self.walk_frames_r)]
                 if now - self.last_update > 60:
@@ -222,15 +220,22 @@ class Player(pg.sprite.Sprite):
                     self.rect = self.image.get_rect()
                     self.rect.bottom = bottom
 
+    # Handle jump animation
     def animate_jump(self):
         now = pg.time.get_ticks()
 
         # Jump animation
         if self.isRight:
-            self.image = self.jump_frames_r[(self.current_frame + 1) % len(self.jump_frames_r)]
-            if now - self.last_update > 100:
+            if not self.checkJumpAni:
+                self.current_frame = 0
+                self.image = self.jump_frames_r[0]
+                self.checkJumpAni = True
+
+            if now - self.last_update > 20:
                 self.last_update = now
-                self.current_frame = (self.current_frame + 1) % len(self.jump_frames_r)
+
+                if self.checkJumpAni < len(self.jump_frames_r) - 1:
+                    self.current_frame = (self.current_frame + 1) % len(self.jump_frames_r)
 
                 bottom = self.rect.bottom
 
@@ -240,10 +245,17 @@ class Player(pg.sprite.Sprite):
                 self.rect.bottom = bottom
 
         else:
+            if not self.checkJumpAni:
+                self.current_frame = 0
+                self.image = self.jump_frames_l[0]
+                self.checkJumpAni = True
+
             self.image = self.jump_frames_l[(self.current_frame + 1) % len(self.jump_frames_l)]
-            if now - self.last_update > 100:
+            if now - self.last_update > 20:
                 self.last_update = now
-                self.current_frame = (self.current_frame + 1) % len(self.jump_frames_l)
+
+                if self.checkJumpAni < len(self.jump_frames_l) - 1:
+                    self.current_frame = (self.current_frame + 1) % len(self.jump_frames_l)
 
                 bottom = self.rect.bottom
 
@@ -252,15 +264,22 @@ class Player(pg.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.bottom = bottom
 
+    # Handle fall animation
     def animate_fall(self):
         now = pg.time.get_ticks()
 
         # Fall animation
         if self.isRight:
-            self.image = self.fall_frames_r[(self.current_frame + 1) % len(self.fall_frames_r)]
-            if now - self.last_update > 100:
+            if not self.checkFallAni:
+                self.current_frame = 0
+                self.image = self.fall_frames_r[0]
+                self.checkFallAni = True
+
+            if now - self.last_update > 20:
                 self.last_update = now
-                self.current_frame = (self.current_frame + 1) % len(self.fall_frames_r)
+
+                if self.current_frame < len(self.fall_frames_r) - 1:
+                    self.current_frame = (self.current_frame + 1) % len(self.fall_frames_r)
 
                 bottom = self.rect.bottom
 
@@ -270,10 +289,16 @@ class Player(pg.sprite.Sprite):
                 self.rect.bottom = bottom
 
         else:
-            self.image = self.fall_frames_l[(self.current_frame + 1) % len(self.fall_frames_l)]
-            if now - self.last_update > 100:
+            if not self.checkFallAni:
+                self.current_frame = 0
+                self.image = self.fall_frames_l[0]
+                self.checkFallAni = True
+
+            if now - self.last_update > 20:
                 self.last_update = now
-                self.current_frame = (self.current_frame + 1) % len(self.fall_frames_l)
+
+                if self.current_frame < len(self.fall_frames_l) - 1:
+                    self.current_frame = (self.current_frame + 1) % len(self.fall_frames_l)
 
                 bottom = self.rect.bottom
 

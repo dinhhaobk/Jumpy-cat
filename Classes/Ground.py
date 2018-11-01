@@ -15,10 +15,10 @@ class Ground(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.grounds
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [pg.image.load("./Resources/Sprites/ground1.png"),
-                  pg.image.load("./Resources/Sprites/ground2.png"),
-                  pg.image.load("./Resources/Sprites/ground3.png"),
-                  pg.image.load("./Resources/Sprites/ground4.png")]
+        images = [pg.transform.scale(pg.image.load("./Resources/Sprites/ground1.png"), (511, 94)),
+                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground2.png"), (1022, 94)),
+                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground3.png"), (190, 47)),
+                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground4.png"), (100, 50))]
         self.image = images[type]
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()

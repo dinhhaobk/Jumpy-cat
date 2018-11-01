@@ -11,8 +11,9 @@ import pygame as pg
 import random
 from Classes.Constants import *
 from Classes.Spritesheet import Spritesheet
-from Classes.Player import *
-from Classes.Ground import *
+from Classes.Camera import Camera
+from Classes.Player import Player
+from Classes.Ground import Ground
 from Classes.Cloud import *
 from Classes.Items import *
 from Classes.Bird import *
@@ -21,6 +22,7 @@ class Game:
     def __init__(self):
         # Init game window, title, clock, font, data
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        self.screen_rect = self.screen.get_rect()
         pg.display.set_caption(FULL_TITLE)
         self.clock = pg.time.Clock()
         self.running = True
@@ -49,9 +51,10 @@ class Game:
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.grounds = pg.sprite.Group() # Group of ground sprites
         self.player = Player(self) 
+        self.camera = Camera(self.screen, self.player, 3000, 600)
         
-        for ground in GROUND_LIST:
-            Ground(self, *ground, 3)
+        for ground in GROUND_LIST_TYPE1:
+            Ground(self, *ground, 1)
         
         self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
         self.run()
@@ -87,6 +90,7 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
+        self.camera.update()
 
         # Check if player hits a ground - only if falling
         if self.player.vel.y > 0:
@@ -96,19 +100,18 @@ class Game:
                 for hit in hits:
                     if hit.rect.bottom > lowest.rect.bottom:
                         lowest = hit
-                if self.player.pos.x < lowest.rect.right + 10 and \
-                   self.player.pos.x > lowest.rect.left - 10:
-                    if self.player.pos.y < lowest.rect.centery:
+                if (self.player.pos.x < lowest.rect.right + 10) and (self.player.pos.x > lowest.rect.left - 10):
+                    if self.player.pos.y < lowest.rect.centery - 10:
                         self.player.pos.y = lowest.rect.top
                         self.player.vel.y = 0
-                        self.player.isJump = False
+                        self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
 
     # Game loop - draw
     def draw(self):
         self.screen.fill(BGCOLOR)
-        self.all_sprites.draw(self.screen)
+        self.camera.draw_sprites(self.screen, self.all_sprites)
         self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
-        pg.display.flip()
+        pg.display.update()
 
     # Start screen
     def start_game_screen(self): 
