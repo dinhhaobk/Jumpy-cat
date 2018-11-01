@@ -47,6 +47,11 @@ class Game:
     def start(self):   
         self.score = 0
         self.all_sprites = pg.sprite.LayeredUpdates()
+        self.grounds = pg.sprite.Group() # Group of ground sprites
+        self.player = Player(self) 
+        
+        for ground in GROUND_LIST:
+            Ground(self, *ground, 3)
         
         self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
         self.run()
@@ -80,7 +85,23 @@ class Game:
 
     # Game loop - update
     def update(self):
-        pass
+        # Game Loop - Update
+        self.all_sprites.update()
+
+        # Check if player hits a ground - only if falling
+        if self.player.vel.y > 0:
+            hits = pg.sprite.spritecollide(self.player, self.grounds, False)
+            if hits:
+                lowest = hits[0]
+                for hit in hits:
+                    if hit.rect.bottom > lowest.rect.bottom:
+                        lowest = hit
+                if self.player.pos.x < lowest.rect.right + 10 and \
+                   self.player.pos.x > lowest.rect.left - 10:
+                    if self.player.pos.y < lowest.rect.centery:
+                        self.player.pos.y = lowest.rect.top
+                        self.player.vel.y = 0
+                        self.player.isJump = False
 
     # Game loop - draw
     def draw(self):

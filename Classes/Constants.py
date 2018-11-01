@@ -16,12 +16,14 @@ FPS = 60
 FONT_NAME = "arial"
 HIGHSCORE_FILE = "highscores.txt"
 SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
+CAT_DIR = "./Resources/Sprites/Cat/"
 
 # Player properties
 PLAYER_ACC = 0.5
 PLAYER_FRICTION = -0.12
 PLAYER_GRAV = 0.8
 PLAYER_JUMP = 20
+PLAYER_SCALE = [80, 120]
 
 # List of grounds
 GROUND_LIST = [(0, HEIGHT - 60),
