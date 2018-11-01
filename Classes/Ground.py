@@ -17,8 +17,8 @@ class Ground(pg.sprite.Sprite):
         self.game = game
         images = [pg.transform.scale(pg.image.load("./Resources/Sprites/ground1.png"), (511, 94)),
                   pg.transform.scale(pg.image.load("./Resources/Sprites/ground2.png"), (1022, 94)),
-                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground3.png"), (190, 47)),
-                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground4.png"), (100, 50))]
+                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground3.png"), (380, 47)),
+                  pg.transform.scale(pg.image.load("./Resources/Sprites/ground4.png"), (200, 50))]
         self.image = images[type]
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()

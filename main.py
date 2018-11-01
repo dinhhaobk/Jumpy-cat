@@ -54,7 +54,7 @@ class Game:
         self.camera = Camera(self.screen, self.player, 3000, 600)
         
         for ground in GROUND_LIST_TYPE1:
-            Ground(self, *ground, 1)
+            Ground(self, *ground, 2)
         
         self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
         self.run()
