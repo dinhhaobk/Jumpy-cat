@@ -12,21 +12,22 @@ import random
 from Classes.Constants import *
 from Classes.Spritesheet import Spritesheet
 from Classes.Camera import Camera
-from Classes.Player import Player
-from Classes.Ground import Ground
-from Classes.Cloud import *
-from Classes.Items import *
-from Classes.Bird import *
+from Classes.Object.Player import Player
+from Classes.Object.Ground import Ground
+from Classes.Object.Cloud import Cloud
+from Classes.Object.Items import *
+from Classes.Object.Bird import *
 
 class Game:
     def __init__(self):
         # Init game window, title, clock, font, data
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
         pg.display.set_caption(FULL_TITLE)
+        pg.mouse.set_visible(False)
         self.clock = pg.time.Clock()
         self.running = True
-        self.font_name = pg.font.match_font(FONT_NAME)
+        self.font_name = pg.font.match_font(FONT_NAME)     
         self.load_data()
 
     # Load all data
@@ -51,10 +52,11 @@ class Game:
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.grounds = pg.sprite.Group() # Group of ground sprites
         self.player = Player(self) 
-        self.camera = Camera(self.screen, self.player, 3000, 600)
-        
+        self.camera = Camera(self.screen, self.player, 15000, 1200)
+        self.isPause = False
+        # Init ground
         for ground in GROUND_LIST_TYPE1:
-            Ground(self, *ground, 2)
+            Ground(self, *ground, 1)
         
         self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
         self.run()
@@ -65,10 +67,14 @@ class Game:
         self.playing = True
 
         while self.playing:
-            self.clock.tick(FPS)
-            self.events()
-            self.update()
-            self.draw()
+            if self.isPause:
+                pg.time.wait(100)
+                self.events()
+            else:
+                self.clock.tick(FPS)
+                self.events()
+                self.update()
+                self.draw()
         pg.mixer.music.fadeout(500)
 
     # Game loop - events
@@ -79,9 +85,22 @@ class Game:
                 if self.playing:
                     self.playing = False
                 self.running = False
+
             if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    if self.playing:
+                        self.playing = False
+                    self.running = False
+
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+
+                if event.key == pg.K_p:
+                    if self.isPause:
+                        self.isPause = False
+                    else:
+                        self.isPause = True
+                        
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     self.player.jump_cut()
@@ -101,7 +120,7 @@ class Game:
                     if hit.rect.bottom > lowest.rect.bottom:
                         lowest = hit
                 if (self.player.pos.x < lowest.rect.right + 10) and (self.player.pos.x > lowest.rect.left - 10):
-                    if self.player.pos.y < lowest.rect.centery - 10:
+                    if self.player.pos.y < lowest.rect.centery:
                         self.player.pos.y = lowest.rect.top
                         self.player.vel.y = 0
                         self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False

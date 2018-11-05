@@ -120,6 +120,7 @@ class Player(pg.sprite.Sprite):
             self.isJump = True
             self.vel.y = -PLAYER_JUMP
 
+        if self.isJump:
             self.animate_jump() # Animation for jump
 
     # Handle when cat jumps 1 bit height
