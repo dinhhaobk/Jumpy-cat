@@ -15,7 +15,7 @@ from Classes.Camera import Camera
 from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
 from Classes.Object.Cloud import Cloud
-from Classes.Object.Items import *
+from Classes.Object.Coin import *
 from Classes.Object.Bird import *
 
 class Game:
@@ -48,16 +48,31 @@ class Game:
 
     # Start a new game
     def start(self):   
-        self.score = 0
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.grounds = pg.sprite.Group() # Group of ground sprites
-        self.player = Player(self) 
-        self.camera = Camera(self.screen, self.player, 15000, 1200)
-        self.isPause = False
-        # Init ground
-        for ground in GROUND_LIST_TYPE1:
-            Ground(self, *ground, 1)
+        self.clouds = pg.sprite.Group() # Group of cloud sprites
+        self.coins = pg.sprite.Group() # Group of coin sprites    
         
+        # Init ground
+        for ground2 in GROUND_LIST_TYPE1:
+            Ground(self, *ground2, 1)
+        for ground in GROUND_LIST_TYPE2:
+            Ground(self, *ground, 2)     
+        for ground3 in GROUND_LIST_TYPE3:
+            Ground(self, *ground3, 3)
+        for ground4 in GROUND_LIST_TYPE4:
+            Ground(self, *ground4, 4) 
+
+        # Init cloud
+        for cloud in range(CLOUD_NUMBER):
+            Cloud(self, cloud)
+        
+        # Init player
+        self.player = Player(self) 
+        self.camera = Camera(self.screen, self.player, 15000, 960) # Init camera
+
+        self.score = 0
+        self.isPause = False     
         self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
         self.run()
 
@@ -68,7 +83,7 @@ class Game:
 
         while self.playing:
             if self.isPause:
-                pg.time.wait(100)
+                pg.time.wait(100) # Pause game
                 self.events()
             else:
                 self.clock.tick(FPS)
@@ -93,7 +108,8 @@ class Game:
                     self.running = False
 
                 if event.key == pg.K_SPACE:
-                    self.player.jump()
+                    if not self.isPause:
+                        self.player.jump()
 
                 if event.key == pg.K_p:
                     if self.isPause:
@@ -103,7 +119,8 @@ class Game:
                         
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
-                    self.player.jump_cut()
+                    if not self.isPause:
+                        self.player.jump_cut()
 
     # Game loop - update
     def update(self):
@@ -113,17 +130,33 @@ class Game:
 
         # Check if player hits a ground - only if falling
         if self.player.vel.y > 0:
-            hits = pg.sprite.spritecollide(self.player, self.grounds, False)
-            if hits:
-                lowest = hits[0]
-                for hit in hits:
-                    if hit.rect.bottom > lowest.rect.bottom:
-                        lowest = hit
+            ground_hit_list = pg.sprite.spritecollide(self.player, self.grounds, False)
+            if len(ground_hit_list) == 1:
+                lowest = ground_hit_list[0]
+                # for hit in hits:
+                #     if hit.rect.bottom > lowest.rect.bottom:
+                #         lowest = hit
                 if (self.player.pos.x < lowest.rect.right + 10) and (self.player.pos.x > lowest.rect.left - 10):
                     if self.player.pos.y < lowest.rect.centery:
                         self.player.pos.y = lowest.rect.top
                         self.player.vel.y = 0
                         self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
+            
+            elif len(ground_hit_list) == 2:
+                low1 = ground_hit_list[0]
+                low2 = ground_hit_list[1]
+                if low1.rect.top == low2.rect.top:
+                    if (self.player.pos.x < low1.rect.right + 10) and (self.player.pos.x > low1.rect.left - 10):
+                        if self.player.pos.y < low1.rect.centery:
+                            self.player.pos.y = low1.rect.top
+                            self.player.vel.y = 0
+                            self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
+
+                    elif (self.player.pos.x < low2.rect.right + 10) and (self.player.pos.x > low2.rect.left - 10):
+                        if self.player.pos.y < low2.rect.centery:
+                            self.player.pos.y = low2.rect.top
+                            self.player.vel.y = 0
+                            self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
 
     # Game loop - draw
     def draw(self):

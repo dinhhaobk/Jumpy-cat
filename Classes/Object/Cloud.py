@@ -8,24 +8,32 @@
 ############################################
 
 import pygame as pg
-from random import choice
+from random import choice, randrange
 from Classes.Constants import CLOUD_DIR, BLACK
+vec = pg.math.Vector2
 
 class Cloud(pg.sprite.Sprite):
-    def __init__(self, game, pos_x, pos_y):
+    def __init__(self, game, distance):
         self.groups = game.all_sprites, game.clouds
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
 
-        self.cloud_list = [pg.transform.scale(pg.image.load(CLOUD_DIR + "cloud1.png"), (511, 94)),
-                            pg.transform.scale(pg.image.load(CLOUD_DIR + "cloud2.png"), (511, 94)),
-                            pg.transform.scale(pg.image.load(CLOUD_DIR + "cloud3.png"), (511, 94))]
+        self.cloud_list = [pg.image.load(CLOUD_DIR + "cloud1.png"),
+                            pg.image.load(CLOUD_DIR + "cloud2.png"),
+                            pg.image.load(CLOUD_DIR + "cloud3.png")]
+
         self.image = choice(self.cloud_list)
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()
-        self.rect.x = pos_x
-        self.rect.y = pos_y
+        self.rect.x = 500 * (distance + 1)
+        self.rect.y = randrange(100, 500)
+        self.pos = vec(self.rect.x, self.rect.y) # Position of cloud
+        self.movx = choice([-0.5, -0.4, -0.3, -0.2, 0.2, 0.3, 0.4, 0.5]) # Move of cloud
 
     def update(self):
-        pass
+        self.pos.x = self.pos.x + self.movx
+        self.rect.center = self.pos
+
+        if self.pos.x < -200 or self.pos.x > 15200:
+            self.kill() 

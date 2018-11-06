@@ -29,10 +29,10 @@ class Player(pg.sprite.Sprite):
         self.load_images()
         self.image = self.idle_frames_r[0]
         self.rect = self.image.get_rect()
-        self.rect.center = (50, HEIGHT - 100)
-        self.pos = vec(50, HEIGHT - 100)
-        self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
+        self.rect.center = (50, HEIGHT * 1.25 - 60)
+        self.pos = vec(50, HEIGHT * 1.25 - 60) # Position of player
+        self.vel = vec(0, 0) # Velocity of player
+        self.acc = vec(0, 0) # Acceleration of player
 
     # Load all images of cat
     def load_images(self):

@@ -21,6 +21,7 @@ SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
 CAT_DIR = "./Resources/Sprites/Cat/"
 GROUND_DIR = "./Resources/Sprites/Ground/"
 CLOUD_DIR = "./Resources/Sprites/Cloud/"
+COIN_DIR = "./Resources/Sprites/Coin/"
 
 # Player properties
 PLAYER_ACC = 0.5
@@ -30,18 +31,22 @@ PLAYER_JUMP = 18
 PLAYER_SCALE = [60, 90]
 
 # List of grounds position
-GROUND_LIST_TYPE1 = [(0, HEIGHT - 60),
-                 (WIDTH / 2 - 50, HEIGHT * 3 / 4 - 50),
-                 (125, HEIGHT - 350),
-                 (350, 200),
-                 (175, 100),
-                 (1.5 * WIDTH, HEIGHT)]
+GROUND_LIST_TYPE1 = [(0, HEIGHT * 1.25 - 20),
+                    (1022, HEIGHT * 1.25 - 20),
+                    (1022 * 2, HEIGHT * 1.25 - 20),
+                    (1022 * 3, HEIGHT * 1.25 - 20),]
+
 GROUND_LIST_TYPE2 = []
-GROUND_LIST_TYPE3 = []
+                    
+GROUND_LIST_TYPE3 = [(200, HEIGHT * 1.25 - 175),
+                    (700, HEIGHT * 1.25 - 175),
+                    (1500, HEIGHT * 1.25 - 175),
+                    (2000, HEIGHT * 1.25 - 175),]
+
 GROUND_LIST_TYPE4 = []
 
-# List of clouds position
-CLOUD_LIST = []
+# Number of clouds
+CLOUD_NUMBER = 30
 
 # Colors
 WHITE = (255, 255, 255)
