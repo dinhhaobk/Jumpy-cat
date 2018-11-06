@@ -10,12 +10,11 @@
 import pygame as pg
 import random
 from Classes.Constants import *
-from Classes.Spritesheet import Spritesheet
 from Classes.Camera import Camera
 from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
 from Classes.Object.Cloud import Cloud
-from Classes.Object.Coin import *
+from Classes.Object.Coin import Coin
 from Classes.Object.Bird import *
 
 class Game:
@@ -38,9 +37,6 @@ class Game:
                 self.highscore = int(f.read())
             except:
                 self.highscore = 0
-
-        # Load spritesheet image
-        self.spritesheet = Spritesheet(SPRITESHEET_FILE)
 
         # Load sounds
         self.jump_sound = pg.mixer.Sound("./Resources/Sound/jump1.wav")
@@ -65,11 +61,15 @@ class Game:
 
         # Init cloud
         for cloud in range(CLOUD_NUMBER):
-            Cloud(self, cloud)
+            Cloud(self, cloud)     
         
         # Init player
         self.player = Player(self) 
         self.camera = Camera(self.screen, self.player, 15000, 960) # Init camera
+
+        # Init coin
+        for coin in COIN_LIST:
+            Coin(self, self.player, *coin)
 
         self.score = 0
         self.isPause = False     
@@ -124,7 +124,7 @@ class Game:
 
     # Game loop - update
     def update(self):
-        # Game Loop - Update
+        # Update all sprites and camera
         self.all_sprites.update()
         self.camera.update()
 
@@ -157,12 +157,18 @@ class Game:
                             self.player.pos.y = low2.rect.top
                             self.player.vel.y = 0
                             self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
+        
+        # Check if player hits a coin - if yes then + score
+        coin_list = pg.sprite.spritecollide(self.player, self.coins, False)
+        for i in range(len(coin_list)):
+            coin_list[i - 1].kill()
+            self.score += 50
 
     # Game loop - draw
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.camera.draw_sprites(self.screen, self.all_sprites)
-        self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
+        self.draw_text(str(self.score), 36, WHITE, WIDTH / 2, 36)
         pg.display.update()
 
     # Start screen

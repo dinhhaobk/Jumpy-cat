@@ -38,8 +38,8 @@ GROUND_LIST_TYPE1 = [(0, HEIGHT * 1.25 - 20),
 
 GROUND_LIST_TYPE2 = []
                     
-GROUND_LIST_TYPE3 = [(200, HEIGHT * 1.25 - 175),
-                    (700, HEIGHT * 1.25 - 175),
+GROUND_LIST_TYPE3 = [(400, HEIGHT * 1.25 - 175),
+                    (900, HEIGHT * 1.25 - 175),
                     (1500, HEIGHT * 1.25 - 175),
                     (2000, HEIGHT * 1.25 - 175),]
 
@@ -47,6 +47,14 @@ GROUND_LIST_TYPE4 = []
 
 # Number of clouds
 CLOUD_NUMBER = 30
+
+# List of coins position
+COIN_LIST = [(475, HEIGHT * 1.25 - 225),
+            (575, HEIGHT * 1.25 - 225),
+            (675, HEIGHT * 1.25 - 225),
+            (975, HEIGHT * 1.25 - 225),
+            (1075, HEIGHT * 1.25 - 225),
+            (1175, HEIGHT * 1.25 - 225),]
 
 # Colors
 WHITE = (255, 255, 255)
