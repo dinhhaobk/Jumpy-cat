@@ -15,6 +15,7 @@ from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
 from Classes.Object.Cloud import Cloud
 from Classes.Object.Coin import Coin
+from Classes.Object.Flag import Flag
 from Classes.Object.Dragonfly import Dragonfly
 from Classes.Object.Bird import Bird
 from Classes.Object.Chicken import Chicken
@@ -50,10 +51,18 @@ class Game:
         self.grounds = pg.sprite.Group() # Group of ground sprites
         self.clouds = pg.sprite.Group() # Group of cloud sprites
         self.coins = pg.sprite.Group() # Group of coin sprites    
+        self.flags = pg.sprite.Group() # Group of flag sprites    
         self.dragonflys = pg.sprite.Group() # Group of dragonfly sprites 
         self.birds = pg.sprite.Group() # Group of bird sprites
         self.chickens = pg.sprite.Group() # Group of chicken sprites
         
+        # Init cloud
+        for cloud in range(CLOUD_NUMBER):
+            Cloud(self, cloud)  
+
+        for flag in FLAG_LIST:
+            Flag(self, *flag)
+
         # Init ground
         for ground2 in GROUND_LIST_TYPE1:
             Ground(self, *ground2, 1)
@@ -63,11 +72,7 @@ class Game:
             Ground(self, *ground3, 3)
         for ground4 in GROUND_LIST_TYPE4:
             Ground(self, *ground4, 4) 
-
-        # Init cloud
-        for cloud in range(CLOUD_NUMBER):
-            Cloud(self, cloud)     
-        
+     
         # Init coin
         for coin in COIN_LIST:
             Coin(self, *coin)
@@ -146,14 +151,15 @@ class Game:
         self.all_sprites.update()
         self.camera.update()
 
-        # Check if player hits a ground - only if falling
+        # Check if player falls out of map - return to flag (checkpoint)
+        if self.player.pos.y > MAP_HEIGHT + 200:
+            self.player.pos = self.player.checkPoint
+
+        # Check if player hits a ground (only if falling)
         if self.player.vel.y > 0:
             ground_hit_list = pg.sprite.spritecollide(self.player, self.grounds, False)
             if len(ground_hit_list) == 1:
                 lowest = ground_hit_list[0]
-                # for hit in hits:
-                #     if hit.rect.bottom > lowest.rect.bottom:
-                #         lowest = hit
                 if (self.player.pos.x < lowest.rect.right + 10) and (self.player.pos.x > lowest.rect.left - 10):
                     if (self.player.pos.y > lowest.rect.top) and (self.player.pos.y < lowest.rect.bottom - 47 * 0.2):
                         self.player.pos.y = lowest.rect.top
@@ -176,29 +182,34 @@ class Game:
                             self.player.vel.y = 0
                             self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
         
-        # Check if player hits a coin - if yes then kill coin, + score
+        # Check if player hits a coin - kill coin, + score
         coin_list = pg.sprite.spritecollide(self.player, self.coins, False)
         for i in range(len(coin_list)):
             coin_list[i - 1].kill()
             self.score += 50
+
+        # Check if player hits a flag - save the checkpoint
+        isHitFlag = pg.sprite.spritecollide(self.player, self.flags, False)
+        if isHitFlag:
+            self.player.checkPoint = (isHitFlag[0].rect.x, isHitFlag[0].rect.y + 200)
         
-        # Check if player hits a dragonfly - if yes then kill dragonfly, + score
+        # Check if player hits a dragonfly - kill dragonfly, + score
         dragonfly_list = pg.sprite.spritecollide(self.player, self.dragonflys, False)
         for i in range(len(dragonfly_list)):
             dragonfly_list[i - 1].kill()
             self.score += 100
 
-        # Check if player hits a chicken from ahead - if yes then kill chicken, + score
+        # Check if player hits a chicken from ahead - kill chicken, + score
         chicken_list = pg.sprite.spritecollide(self.player, self.chickens, False)
         for chick in chicken_list:
-            if self.player.rect.bottom >= chick.rect.top:
+            if (self.player.rect.bottom >= chick.rect.top) and (self.player.rect.top < chick.rect.top):
                 if self.player.isJump:
                     chick.kill()
                     self.score += 200
                 else:
-                    self.player.isHurt = True
+                    self.player.pos = (50, SCREEN_HEIGHT * 1.25 - 60)
             else:
-                self.player.isHurt = True
+                self.player.pos = (50, SCREEN_HEIGHT * 1.25 - 60)
 
         # Check if chicken hits a ground
         for chick in self.chickens:

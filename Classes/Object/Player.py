@@ -17,22 +17,27 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
 
+        self.life = 3 # Number of lives
+        self.checkPoint = FLAG_LIST[0]
+
         self.isWalk = False
         self.isJump = False
-        self.isHurt = False
+        #self.isHurt = False
         self.isRight = True
 
         self.current_frame = 0
         self.last_update = 0
+
         self.checkJumpAni = False
         self.checkFallAni = False
+        self.checkHurtAni = False
 
         self.load_images()
         self.image = self.idle_frames_r[0]
         self.rect = self.image.get_rect()
 
-        self.rect.center = (50, SCREEN_HEIGHT * 1.25 - 60)
-        self.pos = vec(50, SCREEN_HEIGHT * 1.25 - 60) # Position of player
+        self.rect.center = (50, MAP_HEIGHT - 60)
+        self.pos = vec(50, MAP_HEIGHT - 60) # Position of player
         self.vel = vec(0, 0) # Velocity of player
         self.acc = vec(0, 0) # Acceleration of player
 
@@ -96,35 +101,54 @@ class Player(pg.sprite.Sprite):
             self.fall_frames_r[frame].set_colorkey(BLACK)
             self.fall_frames_l.append(pg.transform.flip(self.fall_frames_r[frame], True, False))
 
-        # Hurt state
-        self.hurt_img_list = ["Hurt (1).png", "Hurt (2).png", "Hurt (3).png", "Hurt (4).png",
-                                "Hurt (5).png", "Hurt (6).png", "Hurt (7).png", "Hurt (8).png",
-                                "Hurt (9).png", "Hurt (10).png"]
-        self.hurt_frames_r = []
-        self.hurt_frames_l = []
+        ### Hurt state
+        # self.hurt_img_list = ["Hurt (1).png", "Hurt (2).png", "Hurt (3).png", "Hurt (4).png",
+        #                         "Hurt (5).png", "Hurt (6).png", "Hurt (7).png", "Hurt (8).png",
+        #                         "Hurt (9).png", "Hurt (10).png"]
+        # self.hurt_frames_r = []
+        # self.hurt_frames_l = []
 
-        for img in range(0, len(self.hurt_img_list)):
-            self.hurt_frames_r.append(pg.image.load(CAT_DIR + self.hurt_img_list[img]))
+        # for img in range(0, len(self.hurt_img_list)):
+        #     self.hurt_frames_r.append(pg.image.load(CAT_DIR + self.hurt_img_list[img]))
 
-        for frame in range(0, len(self.hurt_frames_r)):
-            self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
-            self.hurt_frames_r[frame].set_colorkey(BLACK)
-            self.hurt_frames_l.append(pg.transform.flip(self.hurt_frames_r[frame], True, False))
+        # for frame in range(0, len(self.hurt_frames_r)):
+        #     if frame == 0:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (335 // 5, 380 // 5))
+        #     elif frame == 1:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (324 // 5, 410 // 5))
+        #     elif frame == 2:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (345 // 5, 437 // 5))
+        #     elif frame == 3:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (373 // 5, 418 // 5))
+        #     elif frame == 4:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (356 // 5, 353 // 5))
+        #     elif frame == 5:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (351 // 5, 340 // 5))
+        #     elif frame == 6:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (356 // 5, 331 // 5))
+        #     elif frame == 7:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (341 // 5, 380 // 5))
+        #     elif frame == 8:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (351 // 5, 420 // 5))
+        #     elif frame == 9:
+        #         self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (337 // 5, 427 // 5))
+        #     self.hurt_frames_r[frame].set_colorkey(BLACK)
+        #     self.hurt_frames_l.append(pg.transform.flip(self.hurt_frames_r[frame], True, False))
 
-        # Dead state
-        self.dead_img_list = ["Dead (1).png", "Dead (2).png", "Dead (3).png", "Dead (4).png", 
-                                "Dead (5).png", "Dead (6).png", "Dead (7).png", "Dead (8).png", 
-                                "Dead (9).png", "Dead (10).png"]
-        self.dead_frames_r = []
-        self.dead_frames_l = []
+        ### Dead state
+        # self.dead_img_list = ["Dead (1).png", "Dead (2).png", "Dead (3).png", "Dead (4).png", 
+        #                         "Dead (5).png", "Dead (6).png", "Dead (7).png", "Dead (8).png", 
+        #                         "Dead (9).png", "Dead (10).png"]
+        # self.dead_frames_r = []
+        # self.dead_frames_l = []
 
-        for img in range(0, len(self.dead_img_list) - 1):
-            self.dead_frames_r.append(pg.image.load(CAT_DIR + self.dead_img_list[img]))
+        # for img in range(0, len(self.dead_img_list) - 1):
+        #     self.dead_frames_r.append(pg.image.load(CAT_DIR + self.dead_img_list[img]))
 
-        for frame in range(0, len(self.dead_frames_r) - 1):
-            self.dead_frames_r[frame] = pg.transform.scale(self.dead_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
-            self.dead_frames_r[frame].set_colorkey(BLACK)
-            self.dead_frames_l.append(pg.transform.flip(self.dead_frames_r[frame], True, False))
+        # for frame in range(0, len(self.dead_frames_r) - 1):
+        #     self.dead_frames_r[frame] = pg.transform.scale(self.dead_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
+        #     self.dead_frames_r[frame].set_colorkey(BLACK)
+        #     self.dead_frames_l.append(pg.transform.flip(self.dead_frames_r[frame], True, False))
 
     # Handle when cat jumps
     def jump(self):
@@ -186,7 +210,7 @@ class Player(pg.sprite.Sprite):
         if not self.isJump and not self.isWalk:
             if self.isRight:
                 self.image = self.idle_frames_r[(self.current_frame + 1) % len(self.idle_frames_r)]
-                if now - self.last_update > 100:
+                if now - self.last_update > 80:
                     self.last_update = now
                     self.current_frame = (self.current_frame + 1) % len(self.idle_frames_r)
 
@@ -199,7 +223,7 @@ class Player(pg.sprite.Sprite):
 
             else:
                 self.image = self.idle_frames_l[(self.current_frame + 1) % len(self.idle_frames_l)]
-                if now - self.last_update > 100:
+                if now - self.last_update > 80:
                     self.last_update = now
                     self.current_frame = (self.current_frame + 1) % len(self.idle_frames_l)
 
@@ -238,33 +262,61 @@ class Player(pg.sprite.Sprite):
                     self.rect = self.image.get_rect()
                     self.rect.bottom = bottom
 
-        # Hurt animation
-        if self.isHurt:
-            if self.isRight:
-                self.image = self.hurt_frames_r[(self.current_frame + 1) % len(self.hurt_frames_r)]
-                if now - self.last_update > 60:
-                    self.last_update = now
-                    self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_r)
+        ### Hurt animation
+        # if self.isHurt:
+        #     if self.isRight:
+        #         if not self.checkHurtAni:
+        #             self.current_frame = 0
+        #             self.image = self.hurt_frames_r[0]
+        #             self.checkHurtAni = True
 
-                    bottom = self.rect.bottom
+        #         if now - self.last_update_hurt > 100:
+        #             self.last_update_hurt = now
 
-                    self.image = self.hurt_frames_r[self.current_frame]
+        #             if self.current_frame < len(self.hurt_frames_r) - 1:
+        #                 self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_r)
+        #             else:
+        #                 self.isHurt = False
+        #                 #self.checkHurtAni = False
 
-                    self.rect = self.image.get_rect()
-                    self.rect.bottom = bottom
+        #             bottom = self.rect.bottom
 
-            else:
-                self.image = self.hurt_frames_l[(self.current_frame + 1) % len(self.hurt_frames_l)]
-                if now - self.last_update > 60:
-                    self.last_update = now
-                    self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_l)
+        #             self.image = self.hurt_frames_r[self.current_frame]
 
-                    bottom = self.rect.bottom
+        #             self.rect = self.image.get_rect()
+        #             self.rect.bottom = bottom
 
-                    self.image = self.hurt_frames_l[self.current_frame]
+        #     else:
+        #         if not self.checkHurtAni:
+        #             self.current_frame = 0
+        #             self.image = self.hurt_frames_l[0]
+        #             self.checkHurtAni = True
 
-                    self.rect = self.image.get_rect()
-                    self.rect.bottom = bottom
+        #         if now - self.last_update_hurt > 100:
+        #             self.last_update_hurt = now
+
+        #             if self.current_frame < len(self.hurt_frames_l) - 1:
+        #                 self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_l)
+        #             else:
+        #                 self.isHurt = False
+        #                 #self.checkHurtAni = False
+
+        #             bottom = self.rect.bottom
+
+        #             self.image = self.hurt_frames_l[self.current_frame]
+
+        #             self.rect = self.image.get_rect()
+        #             self.rect.bottom = bottom
+
+        ### Set time for immortal
+        # if self.isImmortal:
+        #     if now - self.last_update_immortal > 3000:
+        #         self.last_update_immortal = now
+        #         self.isImmortal = False
+
+        #     else:
+        #         self.image.map_rgb(BLACK)
+
 
     # Handle jump animation
     def animate_jump(self):
@@ -280,7 +332,7 @@ class Player(pg.sprite.Sprite):
             if now - self.last_update > 20:
                 self.last_update = now
 
-                if self.checkJumpAni < len(self.jump_frames_r) - 1:
+                if self.current_frame < len(self.jump_frames_r) - 1:
                     self.current_frame = (self.current_frame + 1) % len(self.jump_frames_r)
 
                 bottom = self.rect.bottom
@@ -300,7 +352,7 @@ class Player(pg.sprite.Sprite):
             if now - self.last_update > 20:
                 self.last_update = now
 
-                if self.checkJumpAni < len(self.jump_frames_l) - 1:
+                if self.current_frame < len(self.jump_frames_l) - 1:
                     self.current_frame = (self.current_frame + 1) % len(self.jump_frames_l)
 
                 bottom = self.rect.bottom

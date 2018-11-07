@@ -34,8 +34,8 @@ class Camera(object):
             self.rect.centerx = self.player.pos.x + 25    
         if self.player.pos.y > self.rect.centery + 25:
             self.rect.centery = self.player.pos.y - 25
-        if self.player.pos.y < self.rect.centery //2 - 25:
-            self.rect.centery = self.player.pos.y //2 + 25
+        if self.player.pos.y < self.rect.centery - 100:
+            self.rect.centery = self.player.pos.y + 100
         self.rect.clamp_ip(self.camera_rect)
 
     def draw_sprites(self, surf, sprites):
