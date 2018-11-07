@@ -17,7 +17,7 @@ class Ground(pg.sprite.Sprite):
         self.game = game
 
         self.ground_list = [pg.transform.scale(pg.image.load(GROUND_DIR + "ground1.png"), (1022, 94)),
-                            pg.transform.scale(pg.image.load(GROUND_DIR + "ground2.png"), (511, 94)),
+                            pg.transform.scale(pg.image.load(GROUND_DIR + "ground2.png"), (511, 47)),
                             pg.transform.scale(pg.image.load(GROUND_DIR + "ground3.png"), (380, 47)),
                             pg.transform.scale(pg.image.load(GROUND_DIR + "ground4.png"), (200, 50))]
                             

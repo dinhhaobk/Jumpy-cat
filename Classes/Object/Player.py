@@ -31,8 +31,8 @@ class Player(pg.sprite.Sprite):
         self.image = self.idle_frames_r[0]
         self.rect = self.image.get_rect()
 
-        self.rect.center = (50, HEIGHT * 1.25 - 60)
-        self.pos = vec(50, HEIGHT * 1.25 - 60) # Position of player
+        self.rect.center = (50, SCREEN_HEIGHT * 1.25 - 60)
+        self.pos = vec(50, SCREEN_HEIGHT * 1.25 - 60) # Position of player
         self.vel = vec(0, 0) # Velocity of player
         self.acc = vec(0, 0) # Acceleration of player
 
@@ -140,7 +140,7 @@ class Player(pg.sprite.Sprite):
         if self.isJump:
             self.animate_jump() # Animation for jump
 
-    # Handle when cat jumps 1 bit height
+    # Handle when cat jumps 1 bit SCREEN_HEIGHT
     def jump_cut(self):
         if self.isJump:
             if self.vel.y < -3:

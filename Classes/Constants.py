@@ -10,8 +10,10 @@
 # Game options/settings
 TITLE = "Jumpy Cat"
 FULL_TITLE = "Jumpy Cat - Assignment 3 - Group 4"
-WIDTH = 1280
-HEIGHT = 720
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+MAP_WIDTH = 8000
+MAP_HEIGHT = 1080
 FPS = 60
 FONT_NAME = "arial"
 HIGHSCORE_FILE = "highscores.txt"
@@ -27,43 +29,70 @@ DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
 CHICKEN_DIR = "./Resources/Sprites/Chicken/"
 
 # Player properties
-PLAYER_ACC = 0.5
+PLAYER_ACC = 0.8 #0.5
 PLAYER_FRICTION = -0.12
 PLAYER_GRAV = 0.8
 PLAYER_JUMP = 18
 PLAYER_SCALE = [60, 90]
 
 # List of grounds position
-GROUND_LIST_TYPE1 = [(0, HEIGHT * 1.25 - 20),
-                    (1022, HEIGHT * 1.25 - 20),
-                    (1022 * 2, HEIGHT * 1.25 - 20),
-                    (1022 * 3, HEIGHT * 1.25 - 20),]
+GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 75),
+                    (1022, MAP_HEIGHT - 75),
+                    (1022 * 2 + 650, MAP_HEIGHT - 75),
+                    (1022 * 3, MAP_HEIGHT - 75),
+                    #(1022 * 4, MAP_HEIGHT - 75),
+                    (1022 * 5, MAP_HEIGHT - 75),
+                    #(1022 * 6, MAP_HEIGHT - 75),
+                    (1022 * 7 - 100, MAP_HEIGHT - 75)]
 
-GROUND_LIST_TYPE2 = []
+GROUND_LIST_TYPE2 = [(3710, MAP_HEIGHT * 0.6 - 520),
+                    (4021, MAP_HEIGHT * 0.6 - 520),
+                    (4532, MAP_HEIGHT * 0.6 - 520),]
                     
-GROUND_LIST_TYPE3 = [(400, HEIGHT * 1.25 - 175),
-                    (900, HEIGHT * 1.25 - 175),
-                    (1500, HEIGHT * 1.25 - 175),
-                    (2000, HEIGHT * 1.25 - 175),]
 
-GROUND_LIST_TYPE4 = []
+GROUND_TYPE3_WIDTH = 380
+ # Y: 144 with 0.8 acc
+ # X: 615
+ # jump max: 180
+GROUND_LIST_TYPE3 = [(400, MAP_HEIGHT * 0.75),
+                    (900, MAP_HEIGHT * 0.75),
+                    (900 + GROUND_TYPE3_WIDTH * 3/4, MAP_HEIGHT * 0.75),
+                    (1790, MAP_HEIGHT * 0.6),
+                    (2940, MAP_HEIGHT * 0.56),
+                    #(3510, MAP_HEIGHT * 0.6),
+                    #(4080, MAP_HEIGHT * 0.7),
+                    (5220, MAP_HEIGHT * 0.6),
+                    #(5790, MAP_HEIGHT * 0.6),
+                    (6360, MAP_HEIGHT * 0.45)]
+
+GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45),
+                    (2560, MAP_HEIGHT * 0.3),
+                    (3510, MAP_HEIGHT * 0.6),
+                    (3510 + 250, MAP_HEIGHT * 0.6 - 140),
+                    (3510, MAP_HEIGHT * 0.6 - 140 - 160),
+                    (3510 - 200 , MAP_HEIGHT * 0.6 - 460),
+                    (3800, MAP_HEIGHT * 0.75),
+                    (4080, MAP_HEIGHT * 0.62), # can move left right
+                    (5790, MAP_HEIGHT * 0.6),
+                    (5590, MAP_HEIGHT * 0.75),
+                    (6130, MAP_HEIGHT * 0.72)] # can move up down
 
 # Number of clouds
 CLOUD_NUMBER = 30
 
 # List of coins position
-COIN_LIST = [(475, HEIGHT * 1.25 - 225),
-            (575, HEIGHT * 1.25 - 225),
-            (675, HEIGHT * 1.25 - 225),
-            (975, HEIGHT * 1.25 - 225),
-            (1075, HEIGHT * 1.25 - 225),
-            (1175, HEIGHT * 1.25 - 225),]
+COIN_LIST = [(475, SCREEN_HEIGHT * 1.25 - 225),
+            (575, SCREEN_HEIGHT * 1.25 - 225),
+            (675, SCREEN_HEIGHT * 1.25 - 225),
+            (975, SCREEN_HEIGHT * 1.25 - 225),
+            (1075, SCREEN_HEIGHT * 1.25 - 225),
+            (1175, SCREEN_HEIGHT * 1.25 - 225),]
 
 # List of dragonfly position
-DRAGONFLY_LIST = [(400, HEIGHT * 1.25 - 400),]
+DRAGONFLY_LIST = [(400, SCREEN_HEIGHT * 1.25 - 400),]
 
 # List of birds position
-BIRD_LIST = [(700, HEIGHT * 1.25 - 400),]
+BIRD_LIST = [(700, SCREEN_HEIGHT * 1.25 - 400),]
 
 # List of chickens position
 CHICKEN_LIST = [(500, HEIGHT * 1.25 - 80)]
