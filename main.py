@@ -71,11 +71,11 @@ class Game:
         for ground3 in GROUND_LIST_TYPE3:
             Ground(self, *ground3, 3)
         for ground4 in GROUND_LIST_TYPE4:
-            Ground(self, *ground4, 4) 
+            Ground(self, *ground4) 
      
         # Init coin
-        for coin in COIN_LIST:
-            Coin(self, *coin)
+        #for coin in COIN_LIST:
+            #Coin(self, *coin)
 
         # Init dragonfly
         for dragonfly in DRAGONFLY_LIST:
@@ -154,6 +154,7 @@ class Game:
         # Check if player falls out of map - return to flag (checkpoint)
         if self.player.pos.y > MAP_HEIGHT + 200:
             self.player.pos = self.player.checkPoint
+            self.player.life -= 1
 
         # Check if player hits a ground (only if falling)
         if self.player.vel.y > 0:
@@ -207,9 +208,17 @@ class Game:
                     chick.kill()
                     self.score += 200
                 else:
-                    self.player.pos = (50, SCREEN_HEIGHT * 1.25 - 60)
+                    self.player.pos = self.player.checkPoint # Return to checkpoint - if being hit
+                    self.player.life -= 1
             else:
-                self.player.pos = (50, SCREEN_HEIGHT * 1.25 - 60)
+                self.player.pos = self.player.checkPoint # Return to checkpoint - if being hit
+                self.player.life -= 1
+
+        # Check if player hits a bird - return to checkpoint
+        isHitBird = pg.sprite.spritecollide(self.player, self.birds, False)
+        if isHitBird:
+            self.player.pos = self.player.checkPoint
+            self.player.life -= 1
 
         # Check if chicken hits a ground
         for chick in self.chickens:

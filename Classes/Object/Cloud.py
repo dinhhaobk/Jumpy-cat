@@ -27,7 +27,7 @@ class Cloud(pg.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.x = 500 * (distance + 1)
-        self.rect.y = randrange(100, 500)
+        self.rect.y = randrange(100, 400)
         self.pos = vec(self.rect.x, self.rect.y) # Position of cloud
         self.movx = choice([-0.5, -0.4, -0.3, -0.2, 0.2, 0.3, 0.4, 0.5]) # Move of cloud
 

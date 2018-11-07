@@ -48,16 +48,17 @@ GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 85),
                     (1022 * 7 - 100, MAP_HEIGHT - 85)]
 
 GROUND_LIST_TYPE2 = [(3710, MAP_HEIGHT * 0.6 - 550),
-                    (4021, MAP_HEIGHT * 0.6 - 550),
-                    (4532, MAP_HEIGHT * 0.6 - 550)]
+                    (4100, MAP_HEIGHT * 0.6 - 550),
+                    #(4532, MAP_HEIGHT * 0.6 - 550)
+                    ]
                     
 
 GROUND_TYPE3_WIDTH = 380
  # Y: 144 with 0.8 acc
  # X: 615
  # jump max: 180
-GROUND_LIST_TYPE3 = [(400, MAP_HEIGHT * 0.75),
-                    (900, MAP_HEIGHT * 0.75),
+GROUND_LIST_TYPE3 = [(700, MAP_HEIGHT * 0.75),
+                    #(900, MAP_HEIGHT * 0.75),
                     (900 + GROUND_TYPE3_WIDTH * 3/4, MAP_HEIGHT * 0.75),
                     (1770, MAP_HEIGHT * 0.6),
                     (2940, MAP_HEIGHT * 0.56),
@@ -65,19 +66,19 @@ GROUND_LIST_TYPE3 = [(400, MAP_HEIGHT * 0.75),
                     #(4080, MAP_HEIGHT * 0.7),
                     (5220, MAP_HEIGHT * 0.6),
                     #(5790, MAP_HEIGHT * 0.6),
-                    (6360, MAP_HEIGHT * 0.45)]
+                    (6500, MAP_HEIGHT * 0.45)]
 
-GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45),
-                    (2560, MAP_HEIGHT * 0.3),
-                    (3510, MAP_HEIGHT * 0.6),
-                    (3510 + 250, MAP_HEIGHT * 0.6 - 140),
-                    (3510, MAP_HEIGHT * 0.6 - 140 - 160),
-                    (3510 - 200 , MAP_HEIGHT * 0.6 - 460),
-                    (3800, MAP_HEIGHT * 0.75),
-                    (4080, MAP_HEIGHT * 0.62), # can move left right
-                    (5790, MAP_HEIGHT * 0.6),
-                    (5590, MAP_HEIGHT * 0.75),
-                    (6150, MAP_HEIGHT * 0.72)] # can move up down
+GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
+                    (2560, MAP_HEIGHT * 0.3, 4),
+                    (3510, MAP_HEIGHT * 0.6, 4),
+                    (3510 + 250, MAP_HEIGHT * 0.6 - 140, 4),
+                    (3510, MAP_HEIGHT * 0.6 - 140 - 160, 4),
+                    (3510 - 200 , MAP_HEIGHT * 0.6 - 460, 4),
+                    (3800, MAP_HEIGHT * 0.75, 4),
+                    (4300, MAP_HEIGHT * 0.62, 4, True), # can move left right
+                    (5790, MAP_HEIGHT * 0.6, 4),
+                    (5590, MAP_HEIGHT * 0.75, 4),
+                    (6150, MAP_HEIGHT * 0.45, 4, False, True)] # can move up down
 
 # Number of clouds
 CLOUD_NUMBER = 30

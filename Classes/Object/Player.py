@@ -235,7 +235,7 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = bottom
 
         # Walk animation
-        if self.isWalk and not self.isJump and not self.isHurt:
+        if self.isWalk and not self.isJump:
             if self.isRight:
                 self.image = self.walk_frames_r[(self.current_frame + 1) % len(self.walk_frames_r)]
                 if now - self.last_update > 60:
