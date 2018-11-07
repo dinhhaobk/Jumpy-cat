@@ -155,7 +155,7 @@ class Game:
                 #     if hit.rect.bottom > lowest.rect.bottom:
                 #         lowest = hit
                 if (self.player.pos.x < lowest.rect.right + 10) and (self.player.pos.x > lowest.rect.left - 10):
-                    if self.player.pos.y < lowest.rect.centery:
+                    if (self.player.pos.y > lowest.rect.top) and (self.player.pos.y < lowest.rect.bottom - 47 * 0.2):
                         self.player.pos.y = lowest.rect.top
                         self.player.vel.y = 0
                         self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False

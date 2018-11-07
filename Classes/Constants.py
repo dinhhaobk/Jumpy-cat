@@ -47,7 +47,7 @@ GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 75),
 
 GROUND_LIST_TYPE2 = [(3710, MAP_HEIGHT * 0.6 - 520),
                     (4021, MAP_HEIGHT * 0.6 - 520),
-                    (4532, MAP_HEIGHT * 0.6 - 520),]
+                    (4532, MAP_HEIGHT * 0.6 - 520)]
                     
 
 GROUND_TYPE3_WIDTH = 380
@@ -95,7 +95,7 @@ DRAGONFLY_LIST = [(400, SCREEN_HEIGHT * 1.25 - 400),]
 BIRD_LIST = [(700, SCREEN_HEIGHT * 1.25 - 400),]
 
 # List of chickens position
-CHICKEN_LIST = [(500, HEIGHT * 1.25 - 80)]
+CHICKEN_LIST = [(500, SCREEN_HEIGHT * 1.25 - 80)]
 
 # Colors
 WHITE = (255, 255, 255)
