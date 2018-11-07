@@ -17,6 +17,7 @@ from Classes.Object.Cloud import Cloud
 from Classes.Object.Coin import Coin
 from Classes.Object.Dragonfly import Dragonfly
 from Classes.Object.Bird import Bird
+from Classes.Object.Chicken import Chicken
 
 class Game:
     def __init__(self):
@@ -51,6 +52,7 @@ class Game:
         self.coins = pg.sprite.Group() # Group of coin sprites    
         self.dragonflys = pg.sprite.Group() # Group of dragonfly sprites 
         self.birds = pg.sprite.Group() # Group of bird sprites
+        self.chickens = pg.sprite.Group() # Group of chicken sprites
         
         # Init ground
         for ground2 in GROUND_LIST_TYPE1:
@@ -78,6 +80,9 @@ class Game:
         for bird in BIRD_LIST:
             Bird(self, *bird)
 
+        # Init chicken
+        for chicken in CHICKEN_LIST:
+            Chicken(self, *chicken)
 
         # Init player
         self.player = Player(self) 
@@ -171,11 +176,35 @@ class Game:
                             self.player.vel.y = 0
                             self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
         
-        # Check if player hits a coin - if yes then + score
+        # Check if player hits a coin - if yes then kill coin, + score
         coin_list = pg.sprite.spritecollide(self.player, self.coins, False)
         for i in range(len(coin_list)):
             coin_list[i - 1].kill()
             self.score += 50
+        
+        # Check if player hits a dragonfly - if yes then kill dragonfly, + score
+        dragonfly_list = pg.sprite.spritecollide(self.player, self.dragonflys, False)
+        for i in range(len(dragonfly_list)):
+            dragonfly_list[i - 1].kill()
+            self.score += 100
+
+        # Check if player hits a chicken from ahead - if yes then kill chicken, + score
+        chicken_list = pg.sprite.spritecollide(self.player, self.chickens, False)
+        for chick in chicken_list:
+            if self.player.rect.bottom >= chick.rect.top:
+                if self.player.isJump:
+                    chick.kill()
+                    self.score += 200
+                else:
+                    self.player.isHurt = True
+            else:
+                self.player.isHurt = True
+
+        # Check if chicken hits a ground
+        for chick in self.chickens:
+            chicken_hit_ground_list = pg.sprite.spritecollide(chick, self.grounds, False)
+            if chicken_hit_ground_list:
+                chick.movy = 0
 
     # Game loop - draw
     def draw(self):

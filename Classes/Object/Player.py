@@ -19,6 +19,7 @@ class Player(pg.sprite.Sprite):
 
         self.isWalk = False
         self.isJump = False
+        self.isHurt = False
         self.isRight = True
 
         self.current_frame = 0
@@ -94,6 +95,21 @@ class Player(pg.sprite.Sprite):
             self.fall_frames_r[frame] = pg.transform.scale(self.fall_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
             self.fall_frames_r[frame].set_colorkey(BLACK)
             self.fall_frames_l.append(pg.transform.flip(self.fall_frames_r[frame], True, False))
+
+        # Hurt state
+        self.hurt_img_list = ["Hurt (1).png", "Hurt (2).png", "Hurt (3).png", "Hurt (4).png",
+                                "Hurt (5).png", "Hurt (6).png", "Hurt (7).png", "Hurt (8).png",
+                                "Hurt (9).png", "Hurt (10).png"]
+        self.hurt_frames_r = []
+        self.hurt_frames_l = []
+
+        for img in range(0, len(self.hurt_img_list)):
+            self.hurt_frames_r.append(pg.image.load(CAT_DIR + self.hurt_img_list[img]))
+
+        for frame in range(0, len(self.hurt_frames_r)):
+            self.hurt_frames_r[frame] = pg.transform.scale(self.hurt_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
+            self.hurt_frames_r[frame].set_colorkey(BLACK)
+            self.hurt_frames_l.append(pg.transform.flip(self.hurt_frames_r[frame], True, False))
 
         # Dead state
         self.dead_img_list = ["Dead (1).png", "Dead (2).png", "Dead (3).png", "Dead (4).png", 
@@ -195,7 +211,7 @@ class Player(pg.sprite.Sprite):
                     self.rect.bottom = bottom
 
         # Walk animation
-        if self.isWalk and not self.isJump:
+        if self.isWalk and not self.isJump and not self.isHurt:
             if self.isRight:
                 self.image = self.walk_frames_r[(self.current_frame + 1) % len(self.walk_frames_r)]
                 if now - self.last_update > 60:
@@ -218,6 +234,34 @@ class Player(pg.sprite.Sprite):
                     bottom = self.rect.bottom
 
                     self.image = self.walk_frames_l[self.current_frame]
+
+                    self.rect = self.image.get_rect()
+                    self.rect.bottom = bottom
+
+        # Hurt animation
+        if self.isHurt:
+            if self.isRight:
+                self.image = self.hurt_frames_r[(self.current_frame + 1) % len(self.hurt_frames_r)]
+                if now - self.last_update > 60:
+                    self.last_update = now
+                    self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_r)
+
+                    bottom = self.rect.bottom
+
+                    self.image = self.hurt_frames_r[self.current_frame]
+
+                    self.rect = self.image.get_rect()
+                    self.rect.bottom = bottom
+
+            else:
+                self.image = self.hurt_frames_l[(self.current_frame + 1) % len(self.hurt_frames_l)]
+                if now - self.last_update > 60:
+                    self.last_update = now
+                    self.current_frame = (self.current_frame + 1) % len(self.hurt_frames_l)
+
+                    bottom = self.rect.bottom
+
+                    self.image = self.hurt_frames_l[self.current_frame]
 
                     self.rect = self.image.get_rect()
                     self.rect.bottom = bottom

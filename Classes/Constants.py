@@ -61,8 +61,12 @@ COIN_LIST = [(475, HEIGHT * 1.25 - 225),
 
 # List of dragonfly position
 DRAGONFLY_LIST = [(400, HEIGHT * 1.25 - 400),]
+
 # List of birds position
 BIRD_LIST = [(700, HEIGHT * 1.25 - 400),]
+
+# List of chickens position
+CHICKEN_LIST = [(500, HEIGHT * 1.25 - 80)]
 
 # Colors
 WHITE = (255, 255, 255)
