@@ -11,11 +11,10 @@ import pygame as pg
 from Classes.Constants import COIN_DIR, BLACK
 
 class Coin(pg.sprite.Sprite):
-    def __init__(self, game, player, pos_x, pos_y):
+    def __init__(self, game, pos_x, pos_y):
         self.groups = game.all_sprites, game.coins
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.player = player
 
         self.current_frame = 0
         self.last_update = 0

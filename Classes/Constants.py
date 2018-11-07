@@ -22,6 +22,8 @@ CAT_DIR = "./Resources/Sprites/Cat/"
 GROUND_DIR = "./Resources/Sprites/Ground/"
 CLOUD_DIR = "./Resources/Sprites/Cloud/"
 COIN_DIR = "./Resources/Sprites/Coin/"
+BIRD_DIR = "./Resources/Sprites/Bird/"
+DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
 
 # Player properties
 PLAYER_ACC = 0.5
@@ -55,6 +57,11 @@ COIN_LIST = [(475, HEIGHT * 1.25 - 225),
             (975, HEIGHT * 1.25 - 225),
             (1075, HEIGHT * 1.25 - 225),
             (1175, HEIGHT * 1.25 - 225),]
+
+# List of dragonfly position
+DRAGONFLY_LIST = [(400, HEIGHT * 1.25 - 400),]
+# List of birds position
+BIRD_LIST = [(700, HEIGHT * 1.25 - 400),]
 
 # Colors
 WHITE = (255, 255, 255)

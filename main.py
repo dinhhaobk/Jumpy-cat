@@ -15,7 +15,8 @@ from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
 from Classes.Object.Cloud import Cloud
 from Classes.Object.Coin import Coin
-from Classes.Object.Bird import *
+from Classes.Object.Dragonfly import Dragonfly
+from Classes.Object.Bird import Bird
 
 class Game:
     def __init__(self):
@@ -48,6 +49,8 @@ class Game:
         self.grounds = pg.sprite.Group() # Group of ground sprites
         self.clouds = pg.sprite.Group() # Group of cloud sprites
         self.coins = pg.sprite.Group() # Group of coin sprites    
+        self.dragonflys = pg.sprite.Group() # Group of dragonfly sprites 
+        self.birds = pg.sprite.Group() # Group of bird sprites
         
         # Init ground
         for ground2 in GROUND_LIST_TYPE1:
@@ -63,13 +66,23 @@ class Game:
         for cloud in range(CLOUD_NUMBER):
             Cloud(self, cloud)     
         
+        # Init coin
+        for coin in COIN_LIST:
+            Coin(self, *coin)
+
+        # Init dragonfly
+        for dragonfly in DRAGONFLY_LIST:
+            Dragonfly(self, *dragonfly)
+
+        # Init bird
+        for bird in BIRD_LIST:
+            Bird(self, *bird)
+
+
         # Init player
         self.player = Player(self) 
         self.camera = Camera(self.screen, self.player, 15000, 960) # Init camera
-
-        # Init coin
-        for coin in COIN_LIST:
-            Coin(self, self.player, *coin)
+        
 
         self.score = 0
         self.isPause = False     
