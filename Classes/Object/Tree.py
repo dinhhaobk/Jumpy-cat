@@ -9,18 +9,18 @@
 
 import pygame as pg
 from random import choice
-from Classes.Constants import ITEM_DIR, BLACK
+from Classes.Constants import TREE_DIR, BLACK
 
-class Item(pg.sprite.Sprite):
-    def __init__(self, game, pos_x, pos_y, type):
-        self.groups = game.all_sprites, game.items
+class Tree(pg.sprite.Sprite):
+    def __init__(self, game, pos_x, pos_y):
+        self.groups = game.all_sprites, game.trees
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
 
-        self.item_list = [pg.transform.scale(pg.image.load(ITEM_DIR + "Tree.png"), (600, 600)),
-                            pg.transform.scale(pg.image.load(ITEM_DIR + "Tree_2.png"), (600, 600))]
+        self.tree_list = [pg.transform.scale(pg.image.load(TREE_DIR + "Tree.png"), (600, 600)),
+                            pg.transform.scale(pg.image.load(TREE_DIR + "Tree_2.png"), (600, 600))]
 
-        self.image = choice(self.item_list)
+        self.image = choice(self.tree_list)
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()

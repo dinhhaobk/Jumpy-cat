@@ -44,7 +44,7 @@ class Ground(pg.sprite.Sprite):
         
         if self.type == 2:
             for coin in range(3):
-                Coin(self.game, self.rect.x + coin * 100, self.rect.y - 50)
+                Coin(self.game, self.rect.x + coin * 100 + 150, self.rect.y - 50)
 
         if self.type == 3:
             for coin in range(self.number_of_coins):

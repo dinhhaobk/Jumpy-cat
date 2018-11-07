@@ -13,6 +13,7 @@ from Classes.Constants import *
 from Classes.Camera import Camera
 from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
+from Classes.Object.Tree import Tree
 from Classes.Object.Cloud import Cloud
 from Classes.Object.Coin import Coin
 from Classes.Object.Flag import Flag
@@ -49,6 +50,7 @@ class Game:
     def start(self):   
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.grounds = pg.sprite.Group() # Group of ground sprites
+        self.trees = pg.sprite.Group() # Group of tree sprites
         self.clouds = pg.sprite.Group() # Group of cloud sprites
         self.coins = pg.sprite.Group() # Group of coin sprites    
         self.flags = pg.sprite.Group() # Group of flag sprites    
@@ -59,7 +61,12 @@ class Game:
         # Init cloud
         for cloud in range(CLOUD_NUMBER):
             Cloud(self, cloud)  
+        
+        # Init tree
+        for tree in TREE_LIST:
+            Tree(self, *tree)
 
+        # Init flag
         for flag in FLAG_LIST:
             Flag(self, *flag)
 

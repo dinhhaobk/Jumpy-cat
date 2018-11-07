@@ -22,9 +22,11 @@ SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
 # Directory
 CAT_DIR = "./Resources/Sprites/Cat/"
 GROUND_DIR = "./Resources/Sprites/Ground/"
+TREE_DIR = "./Resources/Sprites/Tree/"
 CLOUD_DIR = "./Resources/Sprites/Cloud/"
 COIN_DIR = "./Resources/Sprites/Coin/"
 FLAG_DIR = "./Resources/Sprites/Flag/"
+ITEM_DIR = "./Resources/Sprites/Flag/"
 
 BIRD_DIR = "./Resources/Sprites/Bird/"
 DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
@@ -82,6 +84,12 @@ GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
 
 # Number of clouds
 CLOUD_NUMBER = 30
+
+# List of trees position
+TREE_LIST = [(150, MAP_HEIGHT - 675),
+            (1650, MAP_HEIGHT - 675),
+            (2900, MAP_HEIGHT - 675),
+            (7200, MAP_HEIGHT - 675),]
 
 # List of coins position
 COIN_LIST = [(475, MAP_HEIGHT- 225),
