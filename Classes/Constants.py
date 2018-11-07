@@ -24,6 +24,7 @@ CLOUD_DIR = "./Resources/Sprites/Cloud/"
 COIN_DIR = "./Resources/Sprites/Coin/"
 BIRD_DIR = "./Resources/Sprites/Bird/"
 DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
+CHICKEN_DIR = "./Resources/Sprites/Chicken/"
 
 # Player properties
 PLAYER_ACC = 0.5
