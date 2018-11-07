@@ -21,7 +21,7 @@ from Classes.Object.Bird import Bird
 class Game:
     def __init__(self):
         # Init game window, title, clock, font, data
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pg.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
         pg.display.set_caption(FULL_TITLE)
         pg.mouse.set_visible(False)
@@ -81,7 +81,7 @@ class Game:
 
         # Init player
         self.player = Player(self) 
-        self.camera = Camera(self.screen, self.player, 15000, 960) # Init camera
+        self.camera = Camera(self.screen, self.player, MAP_WIDTH, MAP_HEIGHT) # Init camera
         
 
         self.score = 0
@@ -181,7 +181,8 @@ class Game:
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.camera.draw_sprites(self.screen, self.all_sprites)
-        self.draw_text(str(self.score), 36, WHITE, WIDTH / 2, 36)
+        self.draw_text(str(self.score), 36, WHITE, SCREEN_WIDTH / 2, 36)
+        self.draw_text(str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
         pg.display.update()
 
     # Start screen
@@ -190,10 +191,10 @@ class Game:
         pg.mixer.music.play(loops = -1)
 
         self.screen.fill(BGCOLOR)
-        self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text("Press a key to play", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
-        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, 15)
+        self.draw_text(TITLE, 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
+        self.draw_text("Arrows to move, Space to jump", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        self.draw_text("Press a key to play", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 4)
+        self.draw_text("High Score: " + str(self.highscore), 22, WHITE, SCREEN_WIDTH / 2, 15)
         pg.display.flip()
         self.wait_for_key()
         pg.mixer.music.fadeout(500)
@@ -206,19 +207,19 @@ class Game:
         pg.mixer.music.play(loops = -1)
 
         self.screen.fill(BGCOLOR)
-        self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        self.draw_text("Score: " + str(self.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text("Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+        self.draw_text("GAME OVER", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
+        self.draw_text("Score: " + str(self.score), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        self.draw_text("Press a key to play again", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 4)
 
         if self.score > self.highscore:
             self.highscore = self.score
-            self.draw_text("NEW HIGH SCORE!", 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+            self.draw_text("NEW HIGH SCORE!", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
 
             # Write new highscore to file
             with open(HIGHSCORE_FILE) as f:
                 f.write(str(self.score)) 
         else:
-            self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WIDTH / 2, HEIGHT / 2 + 40)
+            self.draw_text("High Score: " + str(self.highscore), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
         pg.display.flip()
         self.wait_for_key()
         pg.mixer.music.fadeout(500)
