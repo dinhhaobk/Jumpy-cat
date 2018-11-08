@@ -25,6 +25,7 @@ class Coin(pg.sprite.Sprite):
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image) # Mask of coin
         self.rect.x = pos_x
         self.rect.y = pos_y
 

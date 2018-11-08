@@ -8,19 +8,21 @@
 ############################################
 
 import pygame as pg
-from Classes.Constants import FLAG_DIR, BLACK
+from Classes.Constants import BOX_DIR, BLACK
 
-class Flag(pg.sprite.Sprite):
-    def __init__(self, game, pos_x, pos_y, type = 0):
-        self.groups = game.all_sprites, game.flags
+class Box(pg.sprite.Sprite):
+    def __init__(self, game, pos_x, pos_y, type):
+        self.groups = game.all_sprites, game.boxs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.type = type
 
-        self.ground_list = [pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_1.png"), (120, 250)),
-                            pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_2.png"), (120, 250))]
-                            
-        self.image = self.ground_list[type]
+        self.box_list = [pg.image.load(BOX_DIR + "Heart_box.png"),
+                        pg.image.load(BOX_DIR + "Shield_box.png"),
+                        pg.image.load(BOX_DIR + "Dart_box2.png"),
+                        pg.image.load(BOX_DIR + "Random_box.png")]
+
+        self.image = self.box_list[type - 1]
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()

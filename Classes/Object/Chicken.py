@@ -30,6 +30,7 @@ class Chicken(pg.sprite.Sprite):
         self.image = self.run_frame_r[0]
 
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image) # Mask of chicken
         self.rect.x = pos_x
         self.rect.y = pos_y
 

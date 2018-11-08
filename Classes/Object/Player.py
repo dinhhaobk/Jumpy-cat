@@ -19,10 +19,13 @@ class Player(pg.sprite.Sprite):
 
         self.life = 3 # Number of lives
         self.checkPoint = FLAG_LIST[0]
+        if self.game.optionCharacter == 1:
+            self.character = CAT_DIR
+        else:
+            self.character = CAT_DIR_2
 
         self.isWalk = False
         self.isJump = False
-        #self.isHurt = False
         self.isRight = True
 
         self.current_frame = 0
@@ -35,6 +38,7 @@ class Player(pg.sprite.Sprite):
         self.load_images()
         self.image = self.idle_frames_r[0]
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image) # Mask of player
 
         self.rect.center = (50, MAP_HEIGHT - 60)
         self.pos = vec(50, MAP_HEIGHT - 60) # Position of player
@@ -51,7 +55,7 @@ class Player(pg.sprite.Sprite):
         self.idle_frames_l = []
 
         for img in range(0, len(self.idle_img_list)):
-            self.idle_frames_r.append(pg.image.load(CAT_DIR + self.idle_img_list[img]))
+            self.idle_frames_r.append(pg.image.load(self.character + self.idle_img_list[img]))
 
         for frame in range(0, len(self.idle_frames_r)):
             self.idle_frames_r[frame] = pg.transform.scale(self.idle_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
@@ -66,7 +70,7 @@ class Player(pg.sprite.Sprite):
         self.walk_frames_l = []
 
         for img in range(0, len(self.walk_img_list)):
-            self.walk_frames_r.append(pg.image.load(CAT_DIR + self.walk_img_list[img]))
+            self.walk_frames_r.append(pg.image.load(self.character + self.walk_img_list[img]))
 
         for frame in range(0, len(self.walk_frames_r)):
             self.walk_frames_r[frame] = pg.transform.scale(self.walk_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
@@ -80,7 +84,7 @@ class Player(pg.sprite.Sprite):
         self.jump_frames_l = []
 
         for img in range(0, len(self.jump_img_list)):
-            self.jump_frames_r.append(pg.image.load(CAT_DIR + self.jump_img_list[img]))
+            self.jump_frames_r.append(pg.image.load(self.character + self.jump_img_list[img]))
 
         for frame in range(0, len(self.jump_frames_r)):
             self.jump_frames_r[frame] = pg.transform.scale(self.jump_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
@@ -94,7 +98,7 @@ class Player(pg.sprite.Sprite):
         self.fall_frames_l = []
 
         for img in range(0, len(self.fall_img_list)):
-            self.fall_frames_r.append(pg.image.load(CAT_DIR + self.fall_img_list[img]))
+            self.fall_frames_r.append(pg.image.load(self.character + self.fall_img_list[img]))
 
         for frame in range(0, len(self.fall_frames_r)):
             self.fall_frames_r[frame] = pg.transform.scale(self.fall_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))
@@ -109,7 +113,7 @@ class Player(pg.sprite.Sprite):
         # self.hurt_frames_l = []
 
         # for img in range(0, len(self.hurt_img_list)):
-        #     self.hurt_frames_r.append(pg.image.load(CAT_DIR + self.hurt_img_list[img]))
+        #     self.hurt_frames_r.append(pg.image.load(self.character + self.hurt_img_list[img]))
 
         # for frame in range(0, len(self.hurt_frames_r)):
         #     if frame == 0:
@@ -143,7 +147,7 @@ class Player(pg.sprite.Sprite):
         # self.dead_frames_l = []
 
         # for img in range(0, len(self.dead_img_list) - 1):
-        #     self.dead_frames_r.append(pg.image.load(CAT_DIR + self.dead_img_list[img]))
+        #     self.dead_frames_r.append(pg.image.load(self.character + self.dead_img_list[img]))
 
         # for frame in range(0, len(self.dead_frames_r) - 1):
         #     self.dead_frames_r[frame] = pg.transform.scale(self.dead_frames_r[frame], (PLAYER_SCALE[0], PLAYER_SCALE[1]))

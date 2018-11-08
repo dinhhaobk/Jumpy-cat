@@ -56,10 +56,10 @@ class Ground(pg.sprite.Sprite):
                     Coin(self.game, self.rect.x + coin * 100 + 20, self.rect.y - 50)
 
     def update(self):
-        now = pg.time.get_ticks() # Count time to change direction of moving ground
-
         # Ground can move left - right
         if self.canMoveX:
+            now = pg.time.get_ticks() # Count time to change direction of moving ground
+
             if self.isMoveRight:
                 self.rect.x += self.speed
                 if now - self.last_update > 7500:
@@ -74,6 +74,8 @@ class Ground(pg.sprite.Sprite):
 
         # Ground can move up - down
         if self.canMoveY:
+            now = pg.time.get_ticks() # Count time to change direction of moving ground
+
             if self.isMoveDown:
                 self.rect.y += self.speed
                 if now - self.last_update > 4000:

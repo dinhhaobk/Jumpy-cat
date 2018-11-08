@@ -37,6 +37,7 @@ class Dragonfly(pg.sprite.Sprite):
         self.image = self.dragonfly_list_r[0]
 
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image) # Mask of dragonfly
         self.rect.x = pos_x
         self.rect.y = pos_y
 

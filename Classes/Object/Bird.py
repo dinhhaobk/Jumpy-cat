@@ -47,6 +47,7 @@ class Bird(pg.sprite.Sprite):
         self.image = self.bird_list_r[0]
 
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image) # Mask of bird
         self.rect.x = pos_x
         self.rect.y = pos_y
 

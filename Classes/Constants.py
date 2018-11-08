@@ -15,18 +15,22 @@ SCREEN_HEIGHT = 720
 MAP_WIDTH = 8000
 MAP_HEIGHT = 1080
 FPS = 60
-FONT_NAME = "arial"
-HIGHSCORE_FILE = "highscores.txt"
+FONT_NAME = "VNI-Lithos"
+FONT_NAME_2 = "VNI-Hobo"
+HIGHSCORE_FILE = "./highscores.txt"
 SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
 
 # Directory
+SPRITE_DIR = "./Resources/Sprites/"
+
 CAT_DIR = "./Resources/Sprites/Cat/"
+CAT_DIR_2 = "./Resources/Sprites/Cat_2/"
 GROUND_DIR = "./Resources/Sprites/Ground/"
 TREE_DIR = "./Resources/Sprites/Tree/"
 CLOUD_DIR = "./Resources/Sprites/Cloud/"
 COIN_DIR = "./Resources/Sprites/Coin/"
 FLAG_DIR = "./Resources/Sprites/Flag/"
-ITEM_DIR = "./Resources/Sprites/Flag/"
+BOX_DIR = "./Resources/Sprites/Box/"
 
 BIRD_DIR = "./Resources/Sprites/Bird/"
 DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
@@ -87,7 +91,6 @@ CLOUD_NUMBER = 30
 
 # List of trees position
 TREE_LIST = [(150, MAP_HEIGHT - 675),
-            (1650, MAP_HEIGHT - 675),
             (2900, MAP_HEIGHT - 675),
             (7200, MAP_HEIGHT - 675),]
 
@@ -105,6 +108,9 @@ FLAG_LIST = [(50, MAP_HEIGHT - 320),
             (5200, MAP_HEIGHT - 320),
             (7800, MAP_HEIGHT - 320, 1),]
 
+# List of boxs position
+BOX_LIST = [(50, MAP_HEIGHT - 200, 3)]
+
 # List of dragonfly position
 DRAGONFLY_LIST = [(400, MAP_HEIGHT - 400),]
 
@@ -121,5 +127,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+ORANGE = (255, 128, 0)
+GRAY = (64, 64, 64)
 LIGHTBLUE = (0, 155, 155)
 BGCOLOR = LIGHTBLUE
