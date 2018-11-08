@@ -206,7 +206,22 @@ class Game:
         coin_list = pg.sprite.spritecollide(self.player, self.coins, False, pg.sprite.collide_mask)
         for i in range(len(coin_list)):
             coin_list[i - 1].kill()
-            self.score += 50
+            self.score += 50    
+            self.sound.playCoinSound()
+
+        # Check if player hits a box from ahead - get items
+        box_list = pg.sprite.spritecollide(self.player, self.boxs, False)
+        for box in box_list:
+            if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):
+                box.kill()
+            elif self.player.rect.left < box.rect.left:
+                self.player.rect.right = box.rect.left
+                self.player.pos.x = self.player.rect.x + 30
+                self.player.pos.y = self.player.rect.y + 89
+            elif self.player.rect.right > box.rect.right:
+                self.player.rect.left = box.rect.right
+                self.player.pos.x = self.player.rect.x + 30
+                self.player.pos.y = self.player.rect.y + 89
 
         # Check if player hits a flag - save the checkpoint
         isHitFlag = pg.sprite.spritecollide(self.player, self.flags, False)
@@ -225,13 +240,10 @@ class Game:
         # Check if player hits a chicken from ahead - kill chicken, + score
         chicken_list = pg.sprite.spritecollide(self.player, self.chickens, False, pg.sprite.collide_mask)
         for chick in chicken_list:
-            if (self.player.rect.bottom >= chick.rect.top) and (self.player.rect.top < chick.rect.top):
-                if self.player.isJump:
-                    chick.kill()
-                    self.score += 200
-                else:
-                    self.player.pos = self.player.checkPoint # Return to checkpoint - if being hit
-                    self.player.life -= 1
+            if self.player.rect.bottom <= chick.rect.centery - 10:
+                chick.kill()
+                self.score += 200
+                self.sound.playChickenSound()
             else:
                 self.player.pos = self.player.checkPoint # Return to checkpoint - if being hit
                 self.player.life -= 1
@@ -391,23 +403,31 @@ class Game:
             return
         self.sound.playIntroMusic()
 
-        self.screen.fill(BGCOLOR)
-        self.draw_text(self.font_name, "GAME OVER", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
-        self.draw_text(self.font_name, "Score: " + str(self.score), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        while self.isWaitingEndScreen:
+            self.screen.fill(BGCOLOR)
+            self.draw_text(self.font_name, "GAME OVER", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
+            self.draw_text(self.font_name, "Score: " + str(self.score), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-        if self.score > self.highscore:
-            self.highscore = self.score
-            self.draw_text(self.font_name, "NEW HIGH SCORE!", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
+            if self.score > self.highscore:
+                self.highscore = self.score
+                self.draw_text(self.font_name, "NEW HIGH SCORE!", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
 
-            # Write new highscore to file
-            with open(HIGHSCORE_FILE, 'w') as f:
-                f.write(str(self.score)) 
-        else:
-            self.draw_text(self.font_name, "High Score: " + str(self.highscore), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
-        
-        pg.display.flip()
-        #self.wait_for_key_on_begin_screen()
+                # Write new highscore to file
+                with open(HIGHSCORE_FILE, 'w') as f:
+                    f.write(str(self.score)) 
+            else:
+                self.draw_text(self.font_name, "High Score: " + str(self.highscore), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
+            
+            pg.display.flip()
+            self.wait_for_key_on_end_screen()
         self.sound.musicFadeOut()
+
+    # Waiting key events on start screen
+    def wait_for_key_on_end_screen(self):
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.isWaitingEndScreen = self.isRunningWindow = False
 
 ########################################################################################################
     # Draw text

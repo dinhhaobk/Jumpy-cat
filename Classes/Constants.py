@@ -110,7 +110,16 @@ FLAG_LIST = [(50, MAP_HEIGHT - 320),
             (7800, MAP_HEIGHT - 320, 1),]
 
 # List of boxs position
-BOX_LIST = [(50, MAP_HEIGHT - 200, 3)]
+BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 4),
+            (2560 + 70, MAP_HEIGHT * 0.3 - 60, 4),
+            (3510 + 70, MAP_HEIGHT * 0.6 - 60, 4),
+            (3510 + 250 + 70, MAP_HEIGHT * 0.6 - 140 - 60, 4),
+            (3510 + 70, MAP_HEIGHT * 0.6 - 140 - 160 - 60, 4),
+            (3510 - 200 + 70, MAP_HEIGHT * 0.6 - 460 - 60, 4),
+            (3800 + 70, MAP_HEIGHT * 0.75 - 60, 4),
+            (4180, 40, 4),
+            (5790 + 70, MAP_HEIGHT * 0.6 - 60, 4),
+            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 4)]
 
 # List of dragonfly position
 DRAGONFLY_LIST = [(400, MAP_HEIGHT - 400),]

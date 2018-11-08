@@ -161,10 +161,9 @@ class Player(pg.sprite.Sprite):
         hits = pg.sprite.spritecollide(self, self.game.grounds, False)
         self.rect.y -= 2
         if hits and not self.isJump:
-            self.game.sound.stopJumpSound()
-            self.game.sound.playJumpSound()
             self.isJump = True
             self.vel.y = -PLAYER_JUMP
+            self.game.sound.playJumpSound()
 
         if self.isJump:
             self.animate_jump() # Animation for jump

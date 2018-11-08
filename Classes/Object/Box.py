@@ -17,10 +17,10 @@ class Box(pg.sprite.Sprite):
         self.game = game
         self.type = type
 
-        self.box_list = [pg.image.load(BOX_DIR + "Heart_box.png"),
-                        pg.image.load(BOX_DIR + "Shield_box.png"),
-                        pg.image.load(BOX_DIR + "Dart_box2.png"),
-                        pg.image.load(BOX_DIR + "Random_box.png")]
+        self.box_list = [pg.transform.scale(pg.image.load(BOX_DIR + "Heart_box.png"), (60, 60)),
+                        pg.transform.scale(pg.image.load(BOX_DIR + "Shield_box.png"), (60, 60)),
+                        pg.transform.scale(pg.image.load(BOX_DIR + "Dart_box2.png"), (60, 60)),
+                        pg.transform.scale(pg.image.load(BOX_DIR + "Random_box.png"), (60, 60))]
 
         self.image = self.box_list[type - 1]
         self.image.set_colorkey(BLACK)
