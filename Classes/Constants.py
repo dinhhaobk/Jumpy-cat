@@ -21,6 +21,7 @@ HIGHSCORE_FILE = "./highscores.txt"
 SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
 
 # Directory
+SOUND_DIR = "./Resources/Sound/"
 SPRITE_DIR = "./Resources/Sprites/"
 
 CAT_DIR = "./Resources/Sprites/Cat/"

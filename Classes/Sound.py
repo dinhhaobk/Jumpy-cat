@@ -12,14 +12,31 @@ from Classes.Constants import *
 
 class Sound:
     def __init__(self):
-        self.bgMusic = pg.mixer.music.load("Music.BG_MUSIC")
-        self.hitSound = pg.mixer.Sound("Music.HIT_SOUND")       
+        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
+        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
+
+        self.jumpSound = pg.mixer.Sound(SOUND_DIR + "jump.wav")
+        self.coinSound = pg.mixer.Sound(SOUND_DIR + "coin.wav")       
 
     def playBgMusic(self):
-        pg.mixer.music.play(0)
+        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
+        pg.mixer.music.play(-1)
 
-    def playHitSound(self):
-        self.hitSound.play()
+    def playIntroMusic(self):
+        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
+        pg.mixer.music.play(-1)
 
-    def stopHitSound(self):
-        self.hitSound.stop()
+    def musicFadeOut(self):
+        pg.mixer.music.fadeout(500)
+
+    def playJumpSound(self):
+        self.jumpSound.play()
+
+    def stopJumpSound(self):
+        self.jumpSound.stop()
+
+    def playCoinSound(self):
+        self.coinSound.play()
+
+    def stopCoinSound(self):
+        self.coinSound.stop()

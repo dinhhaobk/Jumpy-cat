@@ -11,6 +11,7 @@ import pygame as pg
 import random
 from Classes.Constants import *
 from Classes.Camera import Camera
+from Classes.Sound import Sound
 from Classes.Object.Player import Player
 from Classes.Object.Ground import Ground
 from Classes.Object.Tree import Tree
@@ -44,6 +45,7 @@ class Game:
 
         # Used for choosing in option screen
         self.optionCharacter = 1
+        self.optionMusic = True
         self.optionSound = True
 
         # Used for which screen to draw text + image
@@ -62,10 +64,8 @@ class Game:
             except:
                 self.highscore = 0
 
-        # Load sounds
-        self.jump_sound = pg.mixer.Sound("./Resources/Sound/jump1.wav")
-        self.boost_sound = pg.mixer.Sound("./Resources/Sound/boost.wav")    
-
+        self.sound = Sound() # Load sound + music
+        
     # Start a new game
     def start(self):   
         self.all_sprites = pg.sprite.LayeredUpdates()
@@ -120,17 +120,14 @@ class Game:
         # Init player
         self.player = Player(self) 
         self.camera = Camera(self.screen, self.player, MAP_WIDTH, MAP_HEIGHT) # Init camera
-        
 
-        self.score = 0
-        self.isPause = False     
-        self.bg_music = pg.mixer.music.load("./Resources/Sound/bg_music.ogg")
+        self.score = 0 # Score of player
+        self.isPause = False  # Check game is pause or not
         self.run()
 
     # Run a loop game
     def run(self):   
-        pg.mixer.music.play(loops = -1)
-        self.isPlayingGame = True
+        self.sound.playBgMusic()
 
         while self.isPlayingGame:
             if self.isPause:
@@ -141,7 +138,7 @@ class Game:
                 self.events()
                 self.update()
                 self.draw()
-        pg.mixer.music.fadeout(500)
+        self.sound.musicFadeOut()
 
     # Game loop - events
     def events(self):
@@ -266,8 +263,7 @@ class Game:
 ########################################################################################################
     # Start screen
     def start_game_screen(self): 
-        pg.mixer.music.load("./Resources/Sound/intro_music.ogg")
-        pg.mixer.music.play(loops = -1)
+        self.sound.playIntroMusic()
 
         while self.isWaitingStartScreen:
             self.screen.fill(BGCOLOR)
@@ -285,19 +281,24 @@ class Game:
 
             # If on option screen
             if self.onOption:
-                self.draw_text(self.font_name, "OPTION", 80, YELLOW, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 9)
+                self.draw_text(self.font_name, "OPTION", 80, YELLOW, SCREEN_WIDTH / 2 + 30, SCREEN_HEIGHT / 9)
                 self.draw_text(self.font_name_2, "CHARACTER", 40, WHITE, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2.5)
-                self.draw_text(self.font_name_2, "SOUND", 40, WHITE, SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2.5 + 100) 
-                if self.optionSound:
-                    self.draw_text(self.font_name_2, "ON", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 100)  
+                self.draw_text(self.font_name_2, "MUSIC", 40, WHITE, SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2.5 + 75) 
+                if self.optionMusic:
+                    self.draw_text(self.font_name_2, "ON", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 75)  
                 else:
-                    self.draw_text(self.font_name_2, "OFF", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 100)  
+                    self.draw_text(self.font_name_2, "OFF", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 75) 
+                self.draw_text(self.font_name_2, "SOUND", 40, WHITE, SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2.5 + 75 * 2)
+                if self.optionSound: 
+                    self.draw_text(self.font_name_2, "ON", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 75 * 2)  
+                else:
+                    self.draw_text(self.font_name_2, "OFF", 40, WHITE, SCREEN_WIDTH / 2 + 200, SCREEN_HEIGHT / 2.5 + 75 * 2)  
                 self.draw_text(self.font_name_2, "Back", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2 + 250)
 
-                if self.chooseOption == 3:
+                if self.chooseOption == 4:
                     self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 1.22) 
                 else:
-                    self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 3.4, SCREEN_HEIGHT / 3.6 + self.chooseOption * 100)
+                    self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 3.4, SCREEN_HEIGHT / 3.2 + self.chooseOption * 75)
                 if self.optionCharacter == 1:
                     self.draw_image(CAT_DIR + "Idle (1).png", 60, 90, SCREEN_WIDTH / 1.58, SCREEN_HEIGHT / 2.5 - 20)
                 else:
@@ -315,7 +316,7 @@ class Game:
 
             pg.display.flip()
             self.wait_for_key_on_begin_screen()
-        pg.mixer.music.fadeout(500)
+        self.sound.musicFadeOut()
 
     # Waiting key events on start screen
     def wait_for_key_on_begin_screen(self):
@@ -338,7 +339,7 @@ class Game:
                         if self.chooseStart < 4: 
                             self.chooseStart += 1  
                     elif self.onOption:
-                        if self.chooseOption < 3:
+                        if self.chooseOption < 4:
                             self.chooseOption += 1  
 
                 elif (event.key == pg.K_LEFT) or (event.key == pg.K_RIGHT):
@@ -349,7 +350,13 @@ class Game:
                             else:                   
                                 self.optionCharacter = 1
 
-                        if self.chooseOption == 2:
+                        elif self.chooseOption == 2:
+                            if self.optionMusic:
+                                self.optionMusic = False 
+                            else:                   
+                                self.optionMusic = True
+
+                        elif self.chooseOption == 3:
                             if self.optionSound:
                                 self.optionSound = False 
                             else:                   
@@ -369,7 +376,7 @@ class Game:
                             self.isWaitingStartScreen = self.isRunningWindow = False
 
                     elif self.onOption:
-                        if self.chooseOption == 3:
+                        if self.chooseOption == 4:
                             self.onStart = True
                             self.onOption = self.onCredit = False
 
@@ -382,8 +389,7 @@ class Game:
     def game_over_screen(self):   
         if not self.isRunningWindow:
             return
-        pg.mixer.music.load("./Resources/Sound/intro_music.ogg")
-        pg.mixer.music.play(loops = -1)
+        self.sound.playIntroMusic()
 
         self.screen.fill(BGCOLOR)
         self.draw_text(self.font_name, "GAME OVER", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
@@ -401,7 +407,7 @@ class Game:
         
         pg.display.flip()
         #self.wait_for_key_on_begin_screen()
-        pg.mixer.music.fadeout(500)
+        self.sound.musicFadeOut()
 
 ########################################################################################################
     # Draw text
