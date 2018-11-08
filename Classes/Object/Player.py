@@ -18,7 +18,7 @@ class Player(pg.sprite.Sprite):
         self.game = game
 
         self.life = 3 # Number of lives
-        self.dart = 2 # Number of darts
+        self.dart = 0 # Number of darts
         self.isShield = False # Item shield from box
         self.image_shield = pg.image.load(ITEM_DIR + "Shield.png") # Image of shield
 

@@ -18,6 +18,8 @@ class Ground(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.type = type
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
         self.last_update = 0
         self.canMoveX = canMoveX
@@ -58,34 +60,26 @@ class Ground(pg.sprite.Sprite):
     def update(self):
         # Ground can move left - right
         if self.canMoveX:
-            now = pg.time.get_ticks() # Count time to change direction of moving ground
-
             if self.isMoveRight:
                 self.rect.x += self.speed
-                if now - self.last_update > 7500:
-                    self.last_update = now
+                if self.rect.x - self.pos_x > 380:
                     self.isMoveRight = False
 
             else:
                 self.rect.x -= self.speed
-                if now - self.last_update > 7500:
-                    self.last_update = now
+                if self.pos_x - self.rect.x > 380:
                     self.isMoveRight = True
 
         # Ground can move up - down
         if self.canMoveY:
-            now = pg.time.get_ticks() # Count time to change direction of moving ground
-
             if self.isMoveDown:
                 self.rect.y += self.speed
-                if now - self.last_update > 4000:
-                    self.last_update = now
+                if self.rect.y - self.pos_y > 200:
                     self.isMoveDown = False
 
             else:
                 self.rect.y -= self.speed
-                if now - self.last_update > 4000:
-                    self.last_update = now
+                if self.pos_y - self.rect.y > 200:
                     self.isMoveDown = True
 
 

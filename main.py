@@ -42,6 +42,7 @@ class Game:
         
         self.chooseStart = 1 # Used for triangle image on start screen
         self.chooseOption = 3 # Used for triangle image on option screen
+        self.chooseEnd = 1 # Used for triangle image on end screen
 
         # Used for choosing in option screen
         self.optionCharacter = 1
@@ -243,6 +244,7 @@ class Game:
                 self.player.checkPoint = (isHitFlag[0].rect.x, isHitFlag[0].rect.y + 200)
             else:
                 self.isPlayingGame = False
+                self.isWaitingEndScreen = True
         
         # Check if player hits a dragonfly - kill dragonfly, + score
         dragonfly_list = pg.sprite.spritecollide(self.player, self.dragonflys, False, pg.sprite.collide_mask)
@@ -276,6 +278,7 @@ class Game:
         # If player has 0 life - game over
         if self.player.life == 0:
             self.isPlayingGame = False
+            self.isWaitingEndScreen = True
 
     # Game loop - draw
     def draw(self):
@@ -295,9 +298,7 @@ class Game:
 
 ########################################################################################################
     # Start screen
-    def start_game_screen(self): 
-        self.sound.playIntroMusic()
-
+    def start_game_screen(self):        
         while self.isWaitingStartScreen:
             self.screen.fill(BGCOLOR)
 
@@ -353,7 +354,7 @@ class Game:
 
     # Waiting key events on start screen
     def wait_for_key_on_begin_screen(self):
-        self.clock.tick(FPS)
+        #self.clock.tick(FPS)
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
@@ -399,6 +400,7 @@ class Game:
                     if self.onStart:
                         if self.chooseStart == 1:
                             self.isWaitingStartScreen = False
+                            self.isPlayingGame = True
                         elif self.chooseStart == 2:
                             self.onOption = True
                             self.onStart = self.onCredit = False
@@ -426,22 +428,31 @@ class Game:
 
         while self.isWaitingEndScreen:
             self.screen.fill(BGCOLOR)
-            self.draw_text(self.font_name, "GAME OVER", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4)
-            self.draw_text(self.font_name, "Score: " + str(self.score), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+            if self.player.life > 0:
+                self.draw_text(self.font_name, "FINISHED!", 80, YELLOW, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 9)
+            else:
+                self.draw_text(self.font_name, "GAME OVER!", 80, YELLOW, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 9)  
+            
+            self.draw_text(self.font_name_2, "Your score: " + str(self.score), 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
 
             if self.score > self.highscore:
                 self.highscore = self.score
-                self.draw_text(self.font_name, "NEW HIGH SCORE!", 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
+                self.draw_text(self.font_name_2, "NEW HIGH SCORE!", 40, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2)
 
                 # Write new highscore to file
                 with open(HIGHSCORE_FILE, 'w') as f:
                     f.write(str(self.score)) 
             else:
-                self.draw_text(self.font_name, "High Score: " + str(self.highscore), 22, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 40)
+                self.draw_text(self.font_name_2, "High Score: " + str(self.highscore), 40, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2)
             
+            self.draw_text(self.font_name_2, "Play again", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2 + 75 * 2)
+            self.draw_text(self.font_name_2, "Back to menu", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2 + 75 * 3)
+                
+            self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2 + (self.chooseEnd + 1) * 75 - 25)
+
             pg.display.flip()
             self.wait_for_key_on_end_screen()
-        self.sound.musicFadeOut()
 
     # Waiting key events on start screen
     def wait_for_key_on_end_screen(self):
@@ -449,6 +460,24 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.isWaitingEndScreen = self.isRunningWindow = False
+
+                elif event.key == pg.K_UP:
+                    if self.chooseEnd > 1: 
+                        self.chooseEnd -= 1 
+
+                elif event.key == pg.K_DOWN:
+                    if self.chooseEnd < 2: 
+                        self.chooseEnd += 1  
+                
+                elif event.key == pg.K_SPACE:
+                    if self.chooseEnd == 1:
+                        self.isWaitingEndScreen = False
+                        self.isWaitingStartScreen = False
+                        self.isPlayingGame = True
+                    
+                    elif self.chooseEnd == 2:
+                        self.isWaitingEndScreen = False
+                        self.isWaitingStartScreen = True
 
 ########################################################################################################
     # Draw text
@@ -472,11 +501,14 @@ pg.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
 pg.init()
 
 myGame = Game()
+isCheckMusic = False # Check music just run only 1 when init window
+
 while myGame.isRunningWindow:
+    if not isCheckMusic:
+        myGame.sound.playIntroMusic()
+        isCheckMusic = True
     myGame.start_game_screen()
-    if myGame.isRunningWindow:
-        myGame.start()
-    if myGame.isRunningWindow:
-        myGame.game_over_screen()
+    myGame.start()
+    myGame.game_over_screen()
 
 pg.quit()

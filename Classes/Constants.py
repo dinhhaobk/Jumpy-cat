@@ -87,7 +87,7 @@ GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
                     (3510, MAP_HEIGHT * 0.6 - 140 - 160, 4),
                     (3510 - 200 , MAP_HEIGHT * 0.6 - 460, 4),
                     (3800, MAP_HEIGHT * 0.75, 4),
-                    (4400, MAP_HEIGHT * 0.62, 4, True), # can move left right
+                    (4500, MAP_HEIGHT * 0.62, 4, True), # can move left right
                     (5200, MAP_HEIGHT * 0.18, 4),
                     (5790, MAP_HEIGHT * 0.6, 4),
                     (5590, MAP_HEIGHT * 0.75, 4),
