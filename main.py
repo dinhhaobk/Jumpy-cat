@@ -135,6 +135,8 @@ class Game:
 
         while self.isPlayingGame:
             if self.isPause:
+                self.draw_image(BACKGROUND_DIR + "HowToPlay.png", 1000, 563, 140, 78)
+                pg.display.update()
                 pg.time.wait(100) # Pause game
                 self.events()
             else:
@@ -262,12 +264,13 @@ class Game:
         for chick in chicken_list:
             if self.player.rect.bottom <= chick.rect.centery - 10:
                 chick.kill()
-                self.score += 200
+                self.score += 150
                 if self.optionSound:
                     self.sound.playChickenSound()
             else:
                 if self.player.isShield: # If player has shield - kill chicken and lose shield
                     chick.kill()
+                    self.score += 150
                     self.player.isShield = False
                     if self.optionSound:
                         self.sound.playChickenSound()
@@ -281,6 +284,7 @@ class Game:
         if isHitBird:
             if self.player.isShield: # If player has shield - kill bird and lose shield
                 isHitBird[0].kill()
+                self.score += 200
                 self.player.isShield = False
                 if self.optionSound:
                     self.sound.playBirdSound()
@@ -321,7 +325,7 @@ class Game:
                 chick.movy = 0
 
     # Game loop - draw
-    def draw(self):
+    def draw(self):    
         self.screen.fill(BGCOLOR)
         self.camera.draw_sprites(self.screen, self.all_sprites) # Draw all sprites in screen
 
@@ -336,7 +340,8 @@ class Game:
             self.draw_image(ITEM_DIR + "Shield.png", 60, 60, 200, 15)
 
         self.draw_text(self.font_name, "Score: " + str(self.score), 48, BLACK, SCREEN_WIDTH / 1.2, 5)
-        self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
+        #self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
+
         pg.display.update()
 
 ########################################################################################################
@@ -384,9 +389,10 @@ class Game:
             # If on credit screen
             if self.onCredit:
                 self.draw_text(self.font_name, "CREDITS", 80, YELLOW, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 9)
-                self.draw_text(self.font_name_2, "Nguyen Dinh Hao", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5)
-                self.draw_text(self.font_name_2, "Vu Anh Tuan", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 + 75 )
-                self.draw_text(self.font_name_2, "Pham Quang Minh", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 + 75 * 2)
+                self.draw_text(self.font_name_2, "Game Programming - Assignment 3 - Group 4", 48, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 - 60)
+                self.draw_text(self.font_name_2, "Nguyen Dinh Hao", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 + 60)
+                self.draw_text(self.font_name_2, "Vu Anh Tuan", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 + 60 * 2)
+                self.draw_text(self.font_name_2, "Pham Quang Minh", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.5 + 60 * 3)
                 self.draw_text(self.font_name_2, "Back", 40, WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2.2 + 250)
                 
                 self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 2.6, SCREEN_HEIGHT / 2.2 + 260)
@@ -453,7 +459,7 @@ class Game:
                             self.onCredit = True
                             self.onStart = self.onOption = False
                         elif self.chooseStart == 4: 
-                            self.isWaitingStartScreen = self.isRunningWindow = False
+                            self.isWaitingStartScreen = self.isPlayingGame = self.isRunningWindow = False
 
                     elif self.onOption:
                         if self.chooseOption == 4:

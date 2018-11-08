@@ -23,6 +23,7 @@ SPRITESHEET_FILE = "./Resources/Sprites/spritesheet_jumper.png"
 # Directory
 SOUND_DIR = "./Resources/Sound/"
 SPRITE_DIR = "./Resources/Sprites/"
+BACKGROUND_DIR = "./Resources/Background/"
 
 CAT_DIR = "./Resources/Sprites/Cat/"
 CAT_DIR_2 = "./Resources/Sprites/Cat_2/"

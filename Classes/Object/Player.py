@@ -43,8 +43,8 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.mask = pg.mask.from_surface(self.image) # Mask of player
 
-        self.rect.center = (50, MAP_HEIGHT - 60)
-        self.pos = vec(50, MAP_HEIGHT - 60) # Position of player
+        self.rect.center = (50, MAP_HEIGHT - 85)
+        self.pos = vec(50, MAP_HEIGHT - 85) # Position of player
         self.vel = vec(0, 0) # Velocity of player
         self.acc = vec(0, 0) # Acceleration of player
 
