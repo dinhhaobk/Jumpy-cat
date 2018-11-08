@@ -125,7 +125,7 @@ BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 2),
             (4150, 40, 4),
             (5200 + 70, MAP_HEIGHT * 0.18 - 60, 4),
             #(5790 + 70, MAP_HEIGHT * 0.6 - 60, 3),
-            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 2)
+            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 3)
             ]
 
 # List of dragonfly position

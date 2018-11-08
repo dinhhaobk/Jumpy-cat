@@ -20,7 +20,6 @@ class Player(pg.sprite.Sprite):
         self.life = 3 # Number of lives
         self.dart = 0 # Number of darts
         self.isShield = False # Item shield from box
-        self.image_shield = pg.image.load(ITEM_DIR + "Shield.png") # Image of shield
 
         self.checkPoint = FLAG_LIST[0]
         if self.game.optionCharacter == 1:
@@ -161,13 +160,14 @@ class Player(pg.sprite.Sprite):
     # Handle when cat jumps
     def jump(self):
         # Jump only if standing on a ground
-        self.rect.y += 2
+        #self.rect.y += 2
         hits = pg.sprite.spritecollide(self, self.game.grounds, False)
-        self.rect.y -= 2
+        #self.rect.y -= 2
         if hits and not self.isJump:
             self.isJump = True
             self.vel.y = -PLAYER_JUMP
-            self.game.sound.playJumpSound()
+            if self.game.optionSound:
+                self.game.sound.playJumpSound()
 
         if self.isJump:
             self.animate_jump() # Animation for jump
@@ -204,17 +204,6 @@ class Player(pg.sprite.Sprite):
         self.pos += self.vel + 0.5 * self.acc
 
         self.rect.midbottom = self.pos
-
-        # If player collect shield
-        if self.isShield:
-            if self.isRight:
-                #self.image.fill((255,255,255,0))
-                #self.image = img
-                self.image.blit(self.image_shield, (20, 55))
-            else:
-                #self.image.fill((255,255,255,0))
-                #self.image = self.current_frame
-                self.image.blit(self.image_shield, (15, 55))
 
     # Handle animation of cat
     def animate(self):

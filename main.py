@@ -18,6 +18,7 @@ from Classes.Object.Tree import Tree
 from Classes.Object.Cloud import Cloud
 from Classes.Object.Coin import Coin
 from Classes.Object.Box import Box
+from Classes.Object.Dart import Dart
 from Classes.Object.Flag import Flag
 from Classes.Object.Dragonfly import Dragonfly
 from Classes.Object.Bird import Bird
@@ -75,6 +76,7 @@ class Game:
         self.clouds = pg.sprite.Group() # Group of cloud sprites
         self.coins = pg.sprite.Group() # Group of coin sprites
         self.boxs = pg.sprite.Group() # Group of box sprites    
+        self.darts = pg.sprite.Group() # Group of dart sprites
         self.flags = pg.sprite.Group() # Group of flag sprites    
         self.dragonflys = pg.sprite.Group() # Group of dragonfly sprites 
         self.birds = pg.sprite.Group() # Group of bird sprites
@@ -127,8 +129,9 @@ class Game:
         self.run()
 
     # Run a loop game
-    def run(self):   
-        self.sound.playBgMusic()
+    def run(self):  
+        if self.optionMusic: 
+            self.sound.playBgMusic()
 
         while self.isPlayingGame:
             if self.isPause:
@@ -156,6 +159,7 @@ class Game:
 
                 if event.key == pg.K_a: # Throw a dart
                     if self.player.dart > 0:
+                        Dart(self, self.player)
                         self.player.dart -= 1
 
                 if event.key == pg.K_p: # Pause game
@@ -212,7 +216,8 @@ class Game:
         for i in range(len(coin_list)):
             coin_list[i - 1].kill()
             self.score += 50    
-            self.sound.playCoinSound()
+            if self.optionSound:
+                self.sound.playCoinSound()
 
         # Check if player hits a box from ahead - get items
         box_list = pg.sprite.spritecollide(self.player, self.boxs, False)
@@ -258,27 +263,62 @@ class Game:
             if self.player.rect.bottom <= chick.rect.centery - 10:
                 chick.kill()
                 self.score += 200
-                self.sound.playChickenSound()
+                if self.optionSound:
+                    self.sound.playChickenSound()
             else:
-                self.player.pos = self.player.checkPoint # Return to checkpoint - if being hit
-                self.player.life -= 1
+                if self.player.isShield: # If player has shield - kill chicken and lose shield
+                    chick.kill()
+                    self.player.isShield = False
+                    if self.optionSound:
+                        self.sound.playChickenSound()
 
-        # Check if player hits a bird - return to checkpoint
+                else: # Return to checkpoint - if not shield
+                    self.player.pos = self.player.checkPoint 
+                    self.player.life -= 1
+
+        # Check if player hits a bird
         isHitBird = pg.sprite.spritecollide(self.player, self.birds, False, pg.sprite.collide_mask)
         if isHitBird:
-            self.player.pos = self.player.checkPoint
-            self.player.life -= 1
-
-        # Check if chicken hits a ground
-        for chick in self.chickens:
-            chicken_hit_ground_list = pg.sprite.spritecollide(chick, self.grounds, False)
-            if chicken_hit_ground_list:
-                chick.movy = 0
+            if self.player.isShield: # If player has shield - kill bird and lose shield
+                isHitBird[0].kill()
+                self.player.isShield = False
+                if self.optionSound:
+                    self.sound.playBirdSound()
+            
+            else: # Return to checkpoint - if not shield
+                self.player.pos = self.player.checkPoint 
+                self.player.life -= 1
         
         # If player has 0 life - game over
         if self.player.life == 0:
             self.isPlayingGame = False
             self.isWaitingEndScreen = True
+
+        ### Check if dart hit a dragonfly - kill dragonfly
+        for dart in self.darts:
+            isDartHitDragonfly = pg.sprite.spritecollide(dart, self.dragonflys, True, pg.sprite.collide_mask)
+            if isDartHitDragonfly:
+                dart.kill()
+            
+            # Check if dart hit a chicken - kill chicken
+            isDartHitChicken = pg.sprite.spritecollide(dart, self.chickens, True, pg.sprite.collide_mask)
+            if isDartHitChicken:
+                dart.kill()
+                if self.optionSound:
+                    self.sound.playChickenSound()
+
+            # Check if dart hit a bird - kill bird
+            isDartHitBird = pg.sprite.spritecollide(dart, self.birds, True, pg.sprite.collide_mask)
+            if isDartHitBird:
+                dart.kill()
+                if self.optionSound:
+                    self.sound.playBirdSound()
+        
+        ### Check if chicken hits a ground
+        for chick in self.chickens:
+            chicken_hit_ground_list = pg.sprite.spritecollide(chick, self.grounds, False)
+            if chicken_hit_ground_list:
+                chick.movy = 0
 
     # Game loop - draw
     def draw(self):
@@ -291,6 +331,9 @@ class Game:
         if self.player.dart > 0:
             self.draw_image(ITEM_DIR + "Dart.png", 50, 50, 20, 80)
             self.draw_text(self.font_name, "X " + str(self.player.dart), 48, BLACK, 140, 65)
+        
+        if self.player.isShield:
+            self.draw_image(ITEM_DIR + "Shield.png", 60, 60, 200, 15)
 
         self.draw_text(self.font_name, "Score: " + str(self.score), 48, BLACK, SCREEN_WIDTH / 1.2, 5)
         self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
@@ -357,10 +400,10 @@ class Game:
         #self.clock.tick(FPS)
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    self.isWaitingStartScreen = self.isRunningWindow = False
+                #if event.key == pg.K_ESCAPE:
+                    #self.isWaitingStartScreen = self.isRunningWindow = False
 
-                elif event.key == pg.K_UP:
+                if event.key == pg.K_UP:
                     if self.onStart:
                         if self.chooseStart > 1: 
                             self.chooseStart -= 1 
@@ -386,9 +429,11 @@ class Game:
 
                         elif self.chooseOption == 2:
                             if self.optionMusic:
-                                self.optionMusic = False 
+                                self.optionMusic = False
+                                pg.mixer.music.fadeout(0)
                             else:                   
                                 self.optionMusic = True
+                                self.sound.playIntroMusic()
 
                         elif self.chooseOption == 3:
                             if self.optionSound:
@@ -424,7 +469,8 @@ class Game:
     def game_over_screen(self):   
         if not self.isRunningWindow:
             return
-        self.sound.playIntroMusic()
+        if self.optionMusic:
+            self.sound.playIntroMusic()
 
         while self.isWaitingEndScreen:
             self.screen.fill(BGCOLOR)
