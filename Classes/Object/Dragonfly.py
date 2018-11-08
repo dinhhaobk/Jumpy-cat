@@ -16,14 +16,17 @@ class Dragonfly(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.dragonflys
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
-        self.speed = choice([4, 5, 6])
-        self.time_to_change_dir = choice([4000, 4500, 5000])
+        #self.speed = choice([4, 5, 6])
+        #self.pos_to_change_dir = choice([4000, 4500, 5000])
+        self.speed = choice([6])
+        self.pos_to_change_dir = choice([600])
         self.isRight = True
 
         self.current_frame = 0
         self.last_update = 0
-        self.last_update2 = 0
 
         self.dragonfly_list_r = [pg.transform.scale(pg.image.load(DRAGONFLY_DIR + "Dragonfly_1.png").convert(), (int(369 * 0.2), int(268 * 0.2))),
                                 pg.transform.scale(pg.image.load(DRAGONFLY_DIR + "Dragonfly_2.png").convert(), (int(362 * 0.2), int(211 * 0.2))),
@@ -43,7 +46,6 @@ class Dragonfly(pg.sprite.Sprite):
 
     def update(self):
         now = pg.time.get_ticks() # Count time to change frames
-        now2 = pg.time.get_ticks() # Count time to change direction    
 
         if self.isRight:
             self.rect.x += self.speed
@@ -53,8 +55,7 @@ class Dragonfly(pg.sprite.Sprite):
                     
                 self.image = self.dragonfly_list_r[self.current_frame]
          
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.rect.x - self.pos_x > self.pos_to_change_dir:
                     self.isRight = False
         
         else:
@@ -65,6 +66,5 @@ class Dragonfly(pg.sprite.Sprite):
                     
                 self.image = self.dragonfly_list_l[self.current_frame]
                
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.pos_x - self.rect.x > self.pos_to_change_dir:
                     self.isRight = True

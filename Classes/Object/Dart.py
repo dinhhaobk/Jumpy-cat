@@ -42,13 +42,13 @@ class Dart(pg.sprite.Sprite):
 
     def update(self):
         if self.isRight:
-            self.rect.x += 25
+            self.rect.x += 20
 
             if self.rect.x - self.pos_x > 1000:
                 self.kill() 
 
         else:
-            self.rect.x -= 25
+            self.rect.x -= 20
 
             if self.pos_x - self.rect.x > 1000:
                 self.kill() 

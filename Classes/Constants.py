@@ -55,7 +55,7 @@ GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 85),
                     #(1022 * 6, MAP_HEIGHT - 85),
                     (1022 * 7 - 100, MAP_HEIGHT - 85)]
 
-GROUND_LIST_TYPE2 = [(3710, MAP_HEIGHT * 0.6 - 550),
+GROUND_LIST_TYPE2 = [(3660, MAP_HEIGHT * 0.6 - 550),
                     (4100, MAP_HEIGHT * 0.6 - 550),
                     #(4532, MAP_HEIGHT * 0.6 - 550)
                     ]
@@ -81,7 +81,7 @@ GROUND_LIST_TYPE3 = [(700, MAP_HEIGHT * 0.75),
 
 GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
                     (2560, MAP_HEIGHT * 0.3, 4),
-                    (3510 - 500, MAP_HEIGHT * 0.6- 500, 4),
+                    (3510 - 500, MAP_HEIGHT * 0.6 - 500, 4),
                     (3510, MAP_HEIGHT * 0.6, 4),
                     (3510 + 250, MAP_HEIGHT * 0.6 - 140, 4),
                     (3510, MAP_HEIGHT * 0.6 - 140 - 160, 4),
@@ -129,13 +129,30 @@ BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 2),
             ]
 
 # List of dragonfly position
-DRAGONFLY_LIST = [(400, MAP_HEIGHT - 400),]
+DRAGONFLY_LIST = [(1000, MAP_HEIGHT * 0.52),
+                (1250, MAP_HEIGHT * 0.22),
+                (2500, MAP_HEIGHT * 0.65),
+                (3000, MAP_HEIGHT * 0.4),
+                (4700, MAP_HEIGHT * 0.35),
+                (5800, MAP_HEIGHT * 0.25),
+                (7000, MAP_HEIGHT * 0.7),
+                (7600, MAP_HEIGHT * 0.36)]
 
 # List of birds position
-BIRD_LIST = [(700, MAP_HEIGHT- 400),]
+BIRD_LIST = [(2800, 30),
+            (4400, MAP_HEIGHT * 0.75),
+            (4600, MAP_HEIGHT * 0.5),     
+            (4700, MAP_HEIGHT * 0.18),
+            (5500, MAP_HEIGHT * 0.08),
+            (6400, MAP_HEIGHT * 0.36),
+            (7000, MAP_HEIGHT * 0.55)]
 
 # List of chickens position
-CHICKEN_LIST = [(2000, MAP_HEIGHT - 150)]
+CHICKEN_LIST = [(1500, MAP_HEIGHT * 0.86),
+                (3500, MAP_HEIGHT * 0.86),
+                (4140, 10),  # On sky
+                (5600, MAP_HEIGHT * 0.86),
+                (7550, MAP_HEIGHT * 0.86)]
 
 # Colors
 WHITE = (255, 255, 255)

@@ -16,14 +16,17 @@ class Bird(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.birds
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
-        self.speed = choice([2, 3, 4])
-        self.time_to_change_dir = choice([3000, 3500, 4000])
+        #self.speed = choice([2, 3, 4])
+        #self.pos_to_change_dir = choice([3000, 3500, 4000])
+        self.speed = choice([4])
+        self.pos_to_change_dir = choice([360])
         self.isRight = True
 
         self.current_frame = 0
         self.last_update = 0
-        self.last_update2 = 0
 
         self.bird_list_r = [pg.transform.scale(pg.image.load(BIRD_DIR + "Bird_1.png"), (int(146 * 0.65), int(143 * 0.65))),
                             pg.transform.scale(pg.image.load(BIRD_DIR + "Bird_2.png"), (int(146 * 0.65), int(141 * 0.65))),
@@ -53,7 +56,6 @@ class Bird(pg.sprite.Sprite):
 
     def update(self):
         now = pg.time.get_ticks() # Count time to change frames
-        now2 = pg.time.get_ticks() # Count time to change direction
 
         if self.isRight:
             self.rect.x += self.speed
@@ -63,8 +65,7 @@ class Bird(pg.sprite.Sprite):
                     
                 self.image = self.bird_list_r[self.current_frame]
           
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.rect.x - self.pos_x > self.pos_to_change_dir:
                     self.isRight = False
         
         else:
@@ -75,7 +76,6 @@ class Bird(pg.sprite.Sprite):
                     
                 self.image = self.bird_list_l[self.current_frame]
                
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.pos_x - self.rect.x > self.pos_to_change_dir:
                     self.isRight = True
 

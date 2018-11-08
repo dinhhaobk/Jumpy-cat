@@ -17,14 +17,17 @@ class Chicken(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.chickens
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
-        self.speed = choice([4, 5, 6])
-        self.time_to_change_dir = choice([4000, 4500, 5000])
+        #self.speed = choice([4, 5, 6])
+        #self.pos_to_change_dir = choice([4000, 4500, 5000])
+        self.speed = choice([5])
+        self.pos_to_change_dir = choice([450])
         self.isRight = True
 
         self.current_frame = 0
         self.last_update = 0
-        self.last_update2 = 0
 
         self.load_images()
         self.image = self.run_frame_r[0]
@@ -34,7 +37,7 @@ class Chicken(pg.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
 
-        self.pos = vec(self.rect.x, self.rect.y) # Position of cloud
+        self.pos = vec(self.rect.x, self.rect.y) # Position of chicken
         self.movx = 0
         self.movy = 5
 
@@ -70,7 +73,6 @@ class Chicken(pg.sprite.Sprite):
 
     def update(self):
         now = pg.time.get_ticks() # Count time to change frames
-        now2 = pg.time.get_ticks() # Count time to change direction 
 
         self.pos.y = self.pos.y + self.movy   
 
@@ -82,8 +84,7 @@ class Chicken(pg.sprite.Sprite):
                     
                 self.image = self.run_frame_r[self.current_frame]
          
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.pos.x - self.pos_x > self.pos_to_change_dir:
                     self.isRight = False
         
         else:
@@ -94,8 +95,7 @@ class Chicken(pg.sprite.Sprite):
                     
                 self.image = self.run_frame_l[self.current_frame]
                
-                if now2 - self.last_update2 > self.time_to_change_dir:
-                    self.last_update2 = now2
+                if self.pos_x - self.pos.x > self.pos_to_change_dir:
                     self.isRight = True
 
         self.rect.center = self.pos
