@@ -19,7 +19,7 @@ class Coin(pg.sprite.Sprite):
         self.current_frame = 0
         self.last_update = 0
 
-        self.coin_list = [pg.transform.scale(pg.image.load(COIN_DIR + "Coin_1.png"), (42, 42))]
+        self.coin_list = [pg.image.load(COIN_DIR + "Coin_1.png")]
 
         self.image = self.coin_list[0]
         self.image.set_colorkey(BLACK)

@@ -32,6 +32,7 @@ CLOUD_DIR = "./Resources/Sprites/Cloud/"
 COIN_DIR = "./Resources/Sprites/Coin/"
 FLAG_DIR = "./Resources/Sprites/Flag/"
 BOX_DIR = "./Resources/Sprites/Box/"
+ITEM_DIR = "./Resources/Sprites/Item/"
 
 BIRD_DIR = "./Resources/Sprites/Bird/"
 DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
@@ -67,33 +68,36 @@ GROUND_TYPE3_WIDTH = 380
 GROUND_LIST_TYPE3 = [(700, MAP_HEIGHT * 0.75),
                     #(900, MAP_HEIGHT * 0.75),
                     (900 + GROUND_TYPE3_WIDTH * 3/4, MAP_HEIGHT * 0.75),
+                    (900 + GROUND_TYPE3_WIDTH * 3/4, MAP_HEIGHT * 0.45),
                     (1770, MAP_HEIGHT * 0.6),
                     (2940, MAP_HEIGHT * 0.56),
                     #(3510, MAP_HEIGHT * 0.6),
                     #(4080, MAP_HEIGHT * 0.7),
                     (5220, MAP_HEIGHT * 0.6),
+                    (5600, MAP_HEIGHT * 0.18),
                     #(5790, MAP_HEIGHT * 0.6),
+
                     (6500, MAP_HEIGHT * 0.45)]
 
 GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
                     (2560, MAP_HEIGHT * 0.3, 4),
+                    (3510 - 500, MAP_HEIGHT * 0.6- 500, 4),
                     (3510, MAP_HEIGHT * 0.6, 4),
                     (3510 + 250, MAP_HEIGHT * 0.6 - 140, 4),
                     (3510, MAP_HEIGHT * 0.6 - 140 - 160, 4),
                     (3510 - 200 , MAP_HEIGHT * 0.6 - 460, 4),
                     (3800, MAP_HEIGHT * 0.75, 4),
-                    (4300, MAP_HEIGHT * 0.62, 4, True), # can move left right
+                    (4400, MAP_HEIGHT * 0.62, 4, True), # can move left right
+                    (5200, MAP_HEIGHT * 0.18, 4),
                     (5790, MAP_HEIGHT * 0.6, 4),
                     (5590, MAP_HEIGHT * 0.75, 4),
-                    (6150, MAP_HEIGHT * 0.45, 4, False, True)] # can move up down
+                    (6150, MAP_HEIGHT * 0.44, 4, False, True)] # can move up down
 
 # Number of clouds
 CLOUD_NUMBER = 30
 
 # List of trees position
-TREE_LIST = [(150, MAP_HEIGHT - 675),
-            (2900, MAP_HEIGHT - 675),
-            (7200, MAP_HEIGHT - 675),]
+TREE_LIST = [(7200, MAP_HEIGHT - 675),]
 
 # List of coins position
 COIN_LIST = [(475, MAP_HEIGHT- 225),
@@ -110,16 +114,19 @@ FLAG_LIST = [(50, MAP_HEIGHT - 320),
             (7800, MAP_HEIGHT - 320, 1),]
 
 # List of boxs position
-BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 4),
-            (2560 + 70, MAP_HEIGHT * 0.3 - 60, 4),
-            (3510 + 70, MAP_HEIGHT * 0.6 - 60, 4),
-            (3510 + 250 + 70, MAP_HEIGHT * 0.6 - 140 - 60, 4),
-            (3510 + 70, MAP_HEIGHT * 0.6 - 140 - 160 - 60, 4),
-            (3510 - 200 + 70, MAP_HEIGHT * 0.6 - 460 - 60, 4),
-            (3800 + 70, MAP_HEIGHT * 0.75 - 60, 4),
-            (4180, 40, 4),
-            (5790 + 70, MAP_HEIGHT * 0.6 - 60, 4),
-            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 4)]
+BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 2),
+            (2560 + 70, MAP_HEIGHT * 0.3 - 60, 3),
+            (3510 - 500 + 70, MAP_HEIGHT * 0.6 - 500 - 60, 1),
+            #(3510 + 70, MAP_HEIGHT * 0.6 - 60, 4),
+            #(3510 + 250 + 70, MAP_HEIGHT * 0.6 - 140 - 60, 4),
+            #(3510 + 70, MAP_HEIGHT * 0.6 - 140 - 160 - 60, 4),
+            #(3510 - 200 + 70, MAP_HEIGHT * 0.6 - 460 - 60, 4),
+            (3800 + 70, MAP_HEIGHT * 0.75 - 60, 3),
+            (4150, 40, 4),
+            (5200 + 70, MAP_HEIGHT * 0.18 - 60, 4),
+            #(5790 + 70, MAP_HEIGHT * 0.6 - 60, 3),
+            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 2)
+            ]
 
 # List of dragonfly position
 DRAGONFLY_LIST = [(400, MAP_HEIGHT - 400),]

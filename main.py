@@ -8,7 +8,7 @@
 ############################################
 
 import pygame as pg
-import random
+from random import choice
 from Classes.Constants import *
 from Classes.Camera import Camera
 from Classes.Sound import Sound
@@ -149,11 +149,15 @@ class Game:
                         self.isPlayingGame = False
                     self.isRunningWindow = False
 
-                if event.key == pg.K_SPACE:
+                if event.key == pg.K_SPACE: # Jump
                     if not self.isPause:
                         self.player.jump()
 
-                if event.key == pg.K_p:
+                if event.key == pg.K_a: # Throw a dart
+                    if self.player.dart > 0:
+                        self.player.dart -= 1
+
+                if event.key == pg.K_p: # Pause game
                     if self.isPause:
                         self.isPause = False
                     else:
@@ -214,6 +218,15 @@ class Game:
         for box in box_list:
             if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):
                 box.kill()
+                if box.type == 4:
+                    box.type = choice([1, 2, 3])
+                if box.type == 1:
+                    self.player.life += 1 # +1 life
+                if box.type == 2:
+                    self.player.isShield = True # Active shield
+                if box.type == 3:
+                    self.player.dart += 1 # +1 dart
+
             elif self.player.rect.left < box.rect.left:
                 self.player.rect.right = box.rect.left
                 self.player.pos.x = self.player.rect.x + 30
@@ -267,8 +280,16 @@ class Game:
     # Game loop - draw
     def draw(self):
         self.screen.fill(BGCOLOR)
-        self.camera.draw_sprites(self.screen, self.all_sprites)
-        self.draw_text(self.font_name, str(self.score), 36, WHITE, SCREEN_WIDTH / 2, 36)
+        self.camera.draw_sprites(self.screen, self.all_sprites) # Draw all sprites in screen
+
+        self.draw_image(ITEM_DIR + "Heart.png", 60, 50, 20, 20)
+        self.draw_text(self.font_name, "X " + str(self.player.life), 48, BLACK, 140, 5)
+
+        if self.player.dart > 0:
+            self.draw_image(ITEM_DIR + "Dart.png", 50, 50, 20, 80)
+            self.draw_text(self.font_name, "X " + str(self.player.dart), 48, BLACK, 140, 65)
+
+        self.draw_text(self.font_name, "Score: " + str(self.score), 48, BLACK, SCREEN_WIDTH / 1.2, 5)
         self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
         pg.display.update()
 

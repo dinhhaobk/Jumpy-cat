@@ -17,8 +17,8 @@ class Tree(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
 
-        self.tree_list = [pg.transform.scale(pg.image.load(TREE_DIR + "Tree.png"), (600, 600)),
-                            pg.transform.scale(pg.image.load(TREE_DIR + "Tree_2.png"), (600, 600))]
+        self.tree_list = [pg.image.load(TREE_DIR + "Tree.png"),
+                            pg.image.load(TREE_DIR + "Tree_2.png")]
 
         self.image = choice(self.tree_list)
         self.image.set_colorkey(BLACK)
