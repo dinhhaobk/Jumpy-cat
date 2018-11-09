@@ -163,6 +163,8 @@ class Game:
                     if self.player.dart > 0:
                         Dart(self, self.player)
                         self.player.dart -= 1
+                        if self.optionSound:
+                            self.sound.playDartSound()
 
                 if event.key == pg.K_p: # Pause game
                     if self.isPause:
@@ -182,9 +184,11 @@ class Game:
         self.camera.update()
 
         # Check if player falls out of map - return to flag (checkpoint)
-        if self.player.pos.y > MAP_HEIGHT + 200:
+        if self.player.pos.y > MAP_HEIGHT + 100:
             self.player.pos = self.player.checkPoint
             self.player.life -= 1
+            if self.optionSound:
+                self.sound.playHurtSound()
 
         # Check if player hits a ground (only if falling)
         if self.player.vel.y > 0:
@@ -234,6 +238,8 @@ class Game:
                     self.player.isShield = True # Active shield
                 if box.type == 3:
                     self.player.dart += 1 # +1 dart
+                if self.optionSound:
+                    self.sound.playItemSound()
 
             elif self.player.rect.left < box.rect.left:
                 self.player.rect.right = box.rect.left
@@ -249,6 +255,10 @@ class Game:
         if isHitFlag:
             if isHitFlag[0].type == 0:
                 self.player.checkPoint = (isHitFlag[0].rect.x, isHitFlag[0].rect.y + 200)
+                if not isHitFlag[0].isCheck:
+                    if self.optionSound:
+                        self.sound.playFlagSound()
+                        isHitFlag[0].isCheck = True
             else:
                 self.isPlayingGame = False
                 self.isWaitingEndScreen = True
@@ -258,6 +268,8 @@ class Game:
         for i in range(len(dragonfly_list)):
             dragonfly_list[i - 1].kill()
             self.score += 100
+            if self.optionSound:
+                self.sound.playDragonflySound()
 
         # Check if player hits a chicken from ahead - kill chicken, + score
         chicken_list = pg.sprite.spritecollide(self.player, self.chickens, False, pg.sprite.collide_mask)
@@ -278,6 +290,8 @@ class Game:
                 else: # Return to checkpoint - if not shield
                     self.player.pos = self.player.checkPoint 
                     self.player.life -= 1
+                    if self.optionSound:
+                        self.sound.playHurtSound()
 
         # Check if player hits a bird
         isHitBird = pg.sprite.spritecollide(self.player, self.birds, False, pg.sprite.collide_mask)
@@ -292,6 +306,8 @@ class Game:
             else: # Return to checkpoint - if not shield
                 self.player.pos = self.player.checkPoint 
                 self.player.life -= 1
+                if self.optionSound:
+                    self.sound.playHurtSound()
         
         # If player has 0 life - game over
         if self.player.life == 0:
@@ -340,7 +356,7 @@ class Game:
             self.draw_image(ITEM_DIR + "Shield.png", 60, 60, 200, 15)
 
         self.draw_text(self.font_name, "Score: " + str(self.score), 48, BLACK, SCREEN_WIDTH / 1.2, 5)
-        #self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
+        self.draw_text(self.font_name, str(self.player.rect.x) + " - " + str(self.player.rect.y), 36, BLACK, SCREEN_WIDTH / 2, 100)
 
         pg.display.update()
 

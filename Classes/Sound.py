@@ -16,7 +16,13 @@ class Sound:
         self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
 
         self.jumpSound = pg.mixer.Sound(SOUND_DIR + "jump.wav")
-        self.coinSound = pg.mixer.Sound(SOUND_DIR + "coin.wav")   
+        self.coinSound = pg.mixer.Sound(SOUND_DIR + "coin.wav") 
+        self.dartSound = pg.mixer.Sound(SOUND_DIR + "dart.wav")  
+        self.flagSound = pg.mixer.Sound(SOUND_DIR + "flag.wav")   
+        self.itemSound = pg.mixer.Sound(SOUND_DIR + "item.wav")
+        self.hurtSound = pg.mixer.Sound(SOUND_DIR + "hurt.wav")
+
+        self.dragonflySound = pg.mixer.Sound(SOUND_DIR + "dragonfly.wav")  
         self.chickenSound = pg.mixer.Sound(SOUND_DIR + "chicken.wav")  
         self.birdSound = pg.mixer.Sound(SOUND_DIR + "bird.wav")  
 
@@ -38,6 +44,26 @@ class Sound:
     def playCoinSound(self):
         self.coinSound.stop()
         self.coinSound.play()
+
+    def playDartSound(self):
+        self.dartSound.stop()
+        self.dartSound.play()
+
+    def playFlagSound(self):
+        self.flagSound.stop()
+        self.flagSound.play()
+
+    def playItemSound(self):
+        self.itemSound.stop()
+        self.itemSound.play()
+
+    def playHurtSound(self):
+        self.hurtSound.stop()
+        self.hurtSound.play()
+
+    def playDragonflySound(self):
+        self.dragonflySound.stop()
+        self.dragonflySound.play()
 
     def playChickenSound(self):
         self.chickenSound.stop()
