@@ -12,7 +12,7 @@ TITLE = "Jumpy Cat"
 FULL_TITLE = "Jumpy Cat - Assignment 3 - Group 4"
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
-MAP_WIDTH = 9800
+MAP_WIDTH = 10000
 MAP_HEIGHT = 1080
 FPS = 60
 FONT_NAME = "VNI-Lithos"
@@ -56,7 +56,7 @@ GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 85),
                     #(1022 * 6, MAP_HEIGHT - 85),
                     (1022 * 7 - 100, MAP_HEIGHT - 85),
                     (1022 * 8 + 140, MAP_HEIGHT - 85),
-                    (1022 * 9 - 400, MAP_HEIGHT - 85),]
+                    (1022 * 9 - 200, MAP_HEIGHT - 85),]
 
 GROUND_LIST_TYPE2 = [(3660, MAP_HEIGHT * 0.6 - 550),
                     (4100, MAP_HEIGHT * 0.6 - 550),
@@ -80,24 +80,24 @@ GROUND_LIST_TYPE3 = [(700, MAP_HEIGHT * 0.75),
                     (5600, MAP_HEIGHT * 0.18),
                     #(5790, MAP_HEIGHT * 0.6),
                     (6500, MAP_HEIGHT * 0.45),
-                    (8600, MAP_HEIGHT * 0.74),
-                    (9200, MAP_HEIGHT * 0.74)]
+                    (8800, MAP_HEIGHT * 0.74),
+                    (9400, MAP_HEIGHT * 0.74)]
 
-GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4),
-                    (2560, MAP_HEIGHT * 0.3, 4),
-                    (3510 - 500, MAP_HEIGHT * 0.6 - 500, 4),
+GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4, False, False, 2),
+                    (2560, MAP_HEIGHT * 0.3, 4, False, False, 3),
+                    (3510 - 500, MAP_HEIGHT * 0.6 - 500, 4, False, False, 1),
                     (3510, MAP_HEIGHT * 0.6, 4),
                     (3510 + 250, MAP_HEIGHT * 0.6 - 140, 4),
                     (3510, MAP_HEIGHT * 0.6 - 140 - 160, 4),
                     (3510 - 200 , MAP_HEIGHT * 0.6 - 460, 4),
-                    (3800, MAP_HEIGHT * 0.75, 4),
+                    (3800, MAP_HEIGHT * 0.75, 4, False, False, 3),
                     (4500, MAP_HEIGHT * 0.62, 4, True), # can move left right
-                    (5200, MAP_HEIGHT * 0.18, 4),
+                    (5200, MAP_HEIGHT * 0.18, 4, False, False, 4),
                     (5790, MAP_HEIGHT * 0.6, 4),
-                    (5590, MAP_HEIGHT * 0.75, 4),
+                    (5590, MAP_HEIGHT * 0.75, 4, False, False, 3),
                     (6150, MAP_HEIGHT * 0.44, 4, False, True), # can move up down
-                    (8800, MAP_HEIGHT * 0.57),
-                    (9200, MAP_HEIGHT * 0.57)] 
+                    (9000, MAP_HEIGHT * 0.57, 4, False, False, 3),
+                    (9400, MAP_HEIGHT * 0.57, 4, False, False, 3)] 
 
 # Number of clouds
 CLOUD_NUMBER = 30
@@ -114,26 +114,28 @@ COIN_LIST = [(475, MAP_HEIGHT- 225),
             (1175, MAP_HEIGHT- 225),]
 
 # List of flags position
-FLAG_LIST = [(50, MAP_HEIGHT - 320, True),
+FLAG_LIST = [(50, MAP_HEIGHT - 320, True, 1),
             (2800, MAP_HEIGHT - 320),
             (5200, MAP_HEIGHT - 320),
-            (8500, MAP_HEIGHT - 320),
-            #(9700, MAP_HEIGHT - 320, True, 1),
+            (8400, MAP_HEIGHT - 320),
+            #(9700, MAP_HEIGHT - 320, True, 2),
             ]
 
 # List of boxs position
-BOX_LIST = [(2180 + 70, MAP_HEIGHT * 0.45 - 60, 2),
-            (2560 + 70, MAP_HEIGHT * 0.3 - 60, 3),
-            (3510 - 500 + 70, MAP_HEIGHT * 0.6 - 500 - 60, 1),
-            #(3510 + 70, MAP_HEIGHT * 0.6 - 60, 4),
-            #(3510 + 250 + 70, MAP_HEIGHT * 0.6 - 140 - 60, 4),
-            #(3510 + 70, MAP_HEIGHT * 0.6 - 140 - 160 - 60, 4),
-            #(3510 - 200 + 70, MAP_HEIGHT * 0.6 - 460 - 60, 4),
-            (3800 + 70, MAP_HEIGHT * 0.75 - 60, 3),
+BOX_LIST = [#(2180 + 70, MAP_HEIGHT * 0.45 - 60, 2),
+            #(2560 + 70, MAP_HEIGHT * 0.3 - 60, 3),
+            #(3510 - 500 + 70, MAP_HEIGHT * 0.6 - 500 - 60, 1),
+            ##(3510 + 70, MAP_HEIGHT * 0.6 - 60, 4),
+            ##(3510 + 250 + 70, MAP_HEIGHT * 0.6 - 140 - 60, 4),
+            ##(3510 + 70, MAP_HEIGHT * 0.6 - 140 - 160 - 60, 4),
+            ##(3510 - 200 + 70, MAP_HEIGHT * 0.6 - 460 - 60, 4),
+            #(3800 + 70, MAP_HEIGHT * 0.75 - 60, 3),
             (4150, 40, 4),
-            (5200 + 70, MAP_HEIGHT * 0.18 - 60, 4),
-            #(5790 + 70, MAP_HEIGHT * 0.6 - 60, 3),
-            (5590 + 70, MAP_HEIGHT * 0.75 - 60, 3)
+            #(5200 + 70, MAP_HEIGHT * 0.18 - 60, 4),
+            ##(5790 + 70, MAP_HEIGHT * 0.6 - 60, 3),
+            #(5590 + 70, MAP_HEIGHT * 0.75 - 60, 3),
+            #(9000 + 70, MAP_HEIGHT * 0.57 - 300, 3),
+            #(9400 + 70, MAP_HEIGHT * 0.57 - 300, 3)
             ]
 
 # List of dragonfly position

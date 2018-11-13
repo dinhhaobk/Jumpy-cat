@@ -23,6 +23,7 @@ from Classes.Object.Flag import Flag
 from Classes.Object.Dragonfly import Dragonfly
 from Classes.Object.Bird import Bird
 from Classes.Object.Chicken import Chicken
+vec = pg.math.Vector2
 
 class Game:
     def __init__(self):
@@ -254,12 +255,13 @@ class Game:
         isHitFlag = pg.sprite.spritecollide(self.player, self.flags, False)
         if isHitFlag:
             if isHitFlag[0].type == 0:
-                self.player.checkPoint = (isHitFlag[0].rect.x, isHitFlag[0].rect.y + 200)
+                self.player.checkPoint = (isHitFlag[0].rect.x, isHitFlag[0].rect.y)
                 if not isHitFlag[0].isCheck:
                     if self.optionSound:
                         self.sound.playFlagSound()
                         isHitFlag[0].isCheck = True
-            else:
+                        isHitFlag[0].image = isHitFlag[0].flag_list[1]
+            elif isHitFlag[0].type == 2:
                 self.isPlayingGame = False
                 self.isWaitingEndScreen = True
         
@@ -288,7 +290,7 @@ class Game:
                         self.sound.playChickenSound()
 
                 else: # Return to checkpoint - if not shield
-                    self.player.pos = self.player.checkPoint 
+                    self.player.pos = self.player.checkPoint
                     self.player.life -= 1
                     if self.optionSound:
                         self.sound.playHurtSound()
@@ -319,6 +321,8 @@ class Game:
             isDartHitDragonfly = pg.sprite.spritecollide(dart, self.dragonflys, True, pg.sprite.collide_mask)
             if isDartHitDragonfly:
                 dart.kill()
+                if self.optionSound:
+                    self.sound.playDragonflySound()
             
             # Check if dart hit a chicken - kill chicken
             isDartHitChicken = pg.sprite.spritecollide(dart, self.chickens, True, pg.sprite.collide_mask)
@@ -339,6 +343,13 @@ class Game:
             chicken_hit_ground_list = pg.sprite.spritecollide(chick, self.grounds, False)
             if chicken_hit_ground_list:
                 chick.movy = 0
+
+        ### Check if box hits a ground
+        for box in self.boxs:
+            box_hit_ground_list = pg.sprite.spritecollide(box, self.grounds, False)
+            if box_hit_ground_list:
+                if box.rect.bottom > box_hit_ground_list[0].rect.top:
+                    box.rect.bottom = box_hit_ground_list[0].rect.top
 
     # Game loop - draw
     def draw(self):    

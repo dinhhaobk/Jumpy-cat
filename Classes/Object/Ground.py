@@ -9,11 +9,12 @@
 
 import pygame as pg
 from Classes.Object.Coin import Coin
+from Classes.Object.Box import Box
 from Classes.Constants import GROUND_DIR, BLACK
 from random import choice
 
 class Ground(pg.sprite.Sprite):
-    def __init__(self, game, pos_x, pos_y, type = 0, canMoveX = False, canMoveY = False):
+    def __init__(self, game, pos_x, pos_y, type = 0, canMoveX = False, canMoveY = False, boxType = 0, boxDropForBoss = False):
         self.groups = game.all_sprites, game.grounds
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -24,6 +25,8 @@ class Ground(pg.sprite.Sprite):
         self.last_update = 0
         self.canMoveX = canMoveX
         self.canMoveY = canMoveY
+        self.boxType = boxType # Type of box
+        self.boxDropForBoss = boxDropForBoss # Drop item (box) for attacking boss
 
         self.ground_list = [pg.transform.scale(pg.image.load(GROUND_DIR + "ground1.png"), (1022, 94)),
                             pg.transform.scale(pg.image.load(GROUND_DIR + "ground2.png"), (511, 47)),
@@ -41,7 +44,7 @@ class Ground(pg.sprite.Sprite):
         self.isMoveRight = True
         self.isMoveDown = False
 
-        # Init coin on ground
+        # Init coin on ground type 2,3
         self.number_of_coins = choice([2, 3, 4])
         
         if self.type == 2:
@@ -56,6 +59,11 @@ class Ground(pg.sprite.Sprite):
                     Coin(self.game, self.rect.x + coin * 100 + 70, self.rect.y - 50)
                 elif self.number_of_coins == 4:
                     Coin(self.game, self.rect.x + coin * 100 + 20, self.rect.y - 50)
+
+        # Init box on ground type 4
+        if self.type == 4:
+            if not self.boxType == 0:
+                Box(self.game, self.pos_x + 70, self.pos_y - 60, self.boxType)
 
     def update(self):
         # Ground can move left - right
@@ -81,6 +89,10 @@ class Ground(pg.sprite.Sprite):
                 self.rect.y -= self.speed
                 if self.pos_y - self.rect.y > 200:
                     self.isMoveDown = True
+
+        # Item drop from sky to ground - For attacking boss
+        if self.boxDropForBoss:
+            pass
 
 
 

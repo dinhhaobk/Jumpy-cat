@@ -19,10 +19,11 @@ class Flag(pg.sprite.Sprite):
 
         self.isCheck = isCheck # Check flag is touched or not
 
-        self.ground_list = [pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_1.png"), (120, 250)),
-                            pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_2.png"), (120, 250))]
+        self.flag_list = [pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_1.png"), (120, 250)),
+                            pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_2.png"), (120, 250)),
+                            pg.transform.scale(pg.image.load(FLAG_DIR + "Flag_3.png"), (120, 250))]
                             
-        self.image = self.ground_list[type]
+        self.image = self.flag_list[type]
         self.image.set_colorkey(BLACK)
 
         self.rect = self.image.get_rect()

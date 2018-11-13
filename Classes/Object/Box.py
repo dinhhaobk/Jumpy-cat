@@ -8,7 +8,8 @@
 ############################################
 
 import pygame as pg
-from Classes.Constants import BOX_DIR, BLACK
+from Classes.Constants import BOX_DIR, BLACK, PLAYER_GRAV
+vec = pg.math.Vector2
 
 class Box(pg.sprite.Sprite):
     def __init__(self, game, pos_x, pos_y, type):
@@ -28,3 +29,6 @@ class Box(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+
+    def update(self):
+        self.rect.y += 3

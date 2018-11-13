@@ -22,7 +22,7 @@ class Dart(pg.sprite.Sprite):
         self.isRight = self.player.isRight
 
         self.dart_list = [pg.transform.rotate(pg.image.load(ITEM_DIR + "Dart.png"), 45),
-                            pg.transform.rotate(pg.image.load(ITEM_DIR + "Dart.png"), 135)]
+                            pg.transform.rotate(pg.image.load(ITEM_DIR + "Dart.png"), 225)]
 
         self.image = self.dart_list[0]
         self.image.set_colorkey(BLACK)
@@ -42,12 +42,14 @@ class Dart(pg.sprite.Sprite):
 
     def update(self):
         if self.isRight:
+            self.image = self.dart_list[0]
             self.rect.x += 20
 
             if self.rect.x - self.pos_x > 1000:
                 self.kill() 
 
         else:
+            self.image = self.dart_list[1]
             self.rect.x -= 20
 
             if self.pos_x - self.rect.x > 1000:
