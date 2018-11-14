@@ -23,7 +23,7 @@ from Classes.Object.Flag import Flag
 from Classes.Object.Dragonfly import Dragonfly
 from Classes.Object.Bird import Bird
 from Classes.Object.Chicken import Chicken
-vec = pg.math.Vector2
+from Classes.Object.Snake import Snake
 
 class Game:
     def __init__(self):
@@ -82,6 +82,7 @@ class Game:
         self.dragonflys = pg.sprite.Group() # Group of dragonfly sprites 
         self.birds = pg.sprite.Group() # Group of bird sprites
         self.chickens = pg.sprite.Group() # Group of chicken sprites
+        self.snakes = pg.sprite.Group() # Group of snake sprites
         
         # Init cloud
         for cloud in range(CLOUD_NUMBER):
@@ -123,7 +124,13 @@ class Game:
 
         # Init player
         self.player = Player(self) 
-        self.camera = Camera(self.screen, self.player, MAP_WIDTH, MAP_HEIGHT) # Init camera
+
+        # Init snake
+        for snake in SNAKE_LIST:
+            Snake(self, self.player, *snake)
+
+        # Init camera
+        self.camera = Camera(self.screen, self.player, MAP_WIDTH, MAP_HEIGHT) 
 
         self.score = 0 # Score of player
         self.isPause = False  # Check game is pause or not
@@ -201,6 +208,12 @@ class Game:
                         self.player.pos.y = lowest.rect.top
                         self.player.vel.y = 0
                         self.player.isJump = self.player.checkJumpAni = self.player.checkFallAni = False
+
+                if ground_hit_list[0].canMoveX:
+                    if ground_hit_list[0].isMoveRight:
+                        self.player.pos.x += ground_hit_list[0].speed
+                    else:
+                        self.player.pos.x -= ground_hit_list[0].speed
             
             elif len(ground_hit_list) == 2:
                 low1 = ground_hit_list[0]
@@ -229,8 +242,13 @@ class Game:
         # Check if player hits a box from ahead - get items
         box_list = pg.sprite.spritecollide(self.player, self.boxs, False)
         for box in box_list:
-            if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):
+            box_hit_ground = pg.sprite.spritecollide(box, self.grounds, False)
+            if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):         
+                # Get the item from box
                 box.kill()
+                if box_hit_ground:
+                    if box_hit_ground[0].type == 4 and box_hit_ground[0].boxDropForBoss == 1: # Drop item - for boss
+                        box_hit_ground[0].boxDropForBoss = 2
                 if box.type == 4:
                     box.type = choice([1, 2, 3])
                 if box.type == 1:
@@ -240,7 +258,7 @@ class Game:
                 if box.type == 3:
                     self.player.dart += 1 # +1 dart
                 if self.optionSound:
-                    self.sound.playItemSound()
+                    self.sound.playItemSound()           
 
             elif self.player.rect.left < box.rect.left:
                 self.player.rect.right = box.rect.left
@@ -310,6 +328,17 @@ class Game:
                 self.player.life -= 1
                 if self.optionSound:
                     self.sound.playHurtSound()
+
+        # Check if player hits a snake
+        isHitSnake = pg.sprite.spritecollide(self.player, self.snakes, False, pg.sprite.collide_circle)
+        if isHitSnake:               
+            # Return to checkpoint even have shield and lose shield
+            self.player.pos = self.player.checkPoint 
+            self.player.life -= 1
+            if self.player.isShield:
+                self.player.isShield = False
+            if self.optionSound:
+                self.sound.playHurtSound()
         
         # If player has 0 life - game over
         if self.player.life == 0:
@@ -321,6 +350,7 @@ class Game:
             isDartHitDragonfly = pg.sprite.spritecollide(dart, self.dragonflys, True, pg.sprite.collide_mask)
             if isDartHitDragonfly:
                 dart.kill()
+                self.score += 100
                 if self.optionSound:
                     self.sound.playDragonflySound()
             
@@ -328,6 +358,7 @@ class Game:
             isDartHitChicken = pg.sprite.spritecollide(dart, self.chickens, True, pg.sprite.collide_mask)
             if isDartHitChicken:
                 dart.kill()
+                self.score += 150
                 if self.optionSound:
                     self.sound.playChickenSound()
 
@@ -335,8 +366,25 @@ class Game:
             isDartHitBird = pg.sprite.spritecollide(dart, self.birds, True, pg.sprite.collide_mask)
             if isDartHitBird:
                 dart.kill()
+                self.score += 200
                 if self.optionSound:
                     self.sound.playBirdSound()
+
+            # Check if dart hit a snake - kill snake if snake have 0 hp
+            isDartHitSnake = pg.sprite.spritecollide(dart, self.snakes, False, pg.sprite.collide_mask)
+            if isDartHitSnake:
+                dart.kill()
+                for snake in self.snakes:
+                    snake.life -= 1
+                    if self.optionSound:
+                        self.sound.playDartHitSnakeSound()             
+                    if snake.life == 0:
+                        snake.kill()
+                        Flag(self, 10150, MAP_HEIGHT - 335, True, 2)
+                        self.score += 500
+                        if self.optionSound:
+                            self.sound.playSnakeSound()
+                
         
         ### Check if chicken hits a ground
         for chick in self.chickens:
@@ -410,8 +458,10 @@ class Game:
                     self.draw_image(SPRITE_DIR + "triangle.png", 50, 50, SCREEN_WIDTH / 3.4, SCREEN_HEIGHT / 3.2 + self.chooseOption * 75)
                 if self.optionCharacter == 1:
                     self.draw_image(CAT_DIR + "Idle (1).png", 60, 90, SCREEN_WIDTH / 1.58, SCREEN_HEIGHT / 2.5 - 20)
+                    self.draw_text(self.font_name_2, "TORA", 40, ORANGE, SCREEN_WIDTH / 1.33, SCREEN_HEIGHT / 2.5)
                 else:
                     self.draw_image(CAT_DIR_2 + "Idle (1).png", 60, 90, SCREEN_WIDTH / 1.58, SCREEN_HEIGHT / 2.5 - 20)
+                    self.draw_text(self.font_name_2, "KURO", 40, GRAY, SCREEN_WIDTH / 1.33, SCREEN_HEIGHT / 2.5)
 
             # If on credit screen
             if self.onCredit:
@@ -440,25 +490,37 @@ class Game:
                     if self.onStart:
                         if self.chooseStart > 1: 
                             self.chooseStart -= 1 
+                            if self.optionSound:
+                                self.sound.playArrowSound()
                     elif self.onOption:
                         if self.chooseOption > 1: 
                             self.chooseOption -= 1 
+                            if self.optionSound:
+                                self.sound.playArrowSound()
 
                 elif event.key == pg.K_DOWN:
                     if self.onStart:
                         if self.chooseStart < 4: 
                             self.chooseStart += 1  
+                            if self.optionSound:
+                                self.sound.playArrowSound()
                     elif self.onOption:
                         if self.chooseOption < 4:
                             self.chooseOption += 1  
+                            if self.optionSound:
+                                self.sound.playArrowSound()
 
                 elif (event.key == pg.K_LEFT) or (event.key == pg.K_RIGHT):
                     if self.onOption:
                         if self.chooseOption == 1:
                             if self.optionCharacter == 1:
                                 self.optionCharacter = 2 
+                                if self.optionSound:
+                                    self.sound.playArrowSound()
                             else:                   
                                 self.optionCharacter = 1
+                                if self.optionSound:
+                                    self.sound.playArrowSound()
 
                         elif self.chooseOption == 2:
                             if self.optionMusic:
@@ -473,8 +535,11 @@ class Game:
                                 self.optionSound = False 
                             else:                   
                                 self.optionSound = True
+                                self.sound.playArrowSound()
                                 
                 elif event.key == pg.K_SPACE:
+                    if self.optionSound:
+                        self.sound.playChooseSound()
                     if self.onStart:
                         if self.chooseStart == 1:
                             self.isWaitingStartScreen = False
@@ -542,13 +607,19 @@ class Game:
 
                 elif event.key == pg.K_UP:
                     if self.chooseEnd > 1: 
-                        self.chooseEnd -= 1 
+                        self.chooseEnd -= 1
+                        if self.optionSound:
+                            self.sound.playArrowSound()
 
                 elif event.key == pg.K_DOWN:
                     if self.chooseEnd < 2: 
                         self.chooseEnd += 1  
+                        if self.optionSound:
+                            self.sound.playArrowSound()
                 
                 elif event.key == pg.K_SPACE:
+                    if self.optionSound:
+                        self.sound.playChooseSound()
                     if self.chooseEnd == 1:
                         self.isWaitingEndScreen = False
                         self.isWaitingStartScreen = False

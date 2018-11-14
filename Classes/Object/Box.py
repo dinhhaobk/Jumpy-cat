@@ -31,4 +31,4 @@ class Box(pg.sprite.Sprite):
         self.rect.y = pos_y
 
     def update(self):
-        self.rect.y += 3
+        self.rect.y += 6

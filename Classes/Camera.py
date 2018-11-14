@@ -21,11 +21,11 @@ class Camera(object):
         self.rect.center = self.player.rect.center
         self.camera_rect = pg.Rect(0, 0, map_SCREEN_WIDTH, map_height)
 
+        self.canMoveUp = True
+
     def update(self):
         if self.player.pos.x > self.rect.centerx + 25:
             self.rect.centerx = self.player.pos.x - 25
-        #if self.player.pos.x < self.rect.centerx - SCREEN_WIDTH / 2: 
-            #self.player.pos.x = self.rect.centerx - SCREEN_WIDTH / 2 # Not let cat move left
         if self.player.pos.x < 0:
             self.player.pos.x = 0
         if self.player.pos.x > MAP_WIDTH:
@@ -34,9 +34,13 @@ class Camera(object):
             self.rect.centerx = self.player.pos.x + 25    
         if self.player.pos.y > self.rect.centery + 25:
             self.rect.centery = self.player.pos.y - 25
-        if self.player.pos.y < self.rect.centery - 150:
-            self.rect.centery = self.player.pos.y + 150
+        if self.player.pos.y < self.rect.centery - 100:
+            if self.canMoveUp:
+                self.rect.centery = self.player.pos.y + 100
         self.rect.clamp_ip(self.camera_rect)
+
+        if self.player.pos.x > 8500:
+            self.canMoveUp = False
 
     def draw_sprites(self, surf, sprites):
         for s in sprites:

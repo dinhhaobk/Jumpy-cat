@@ -45,8 +45,8 @@ class Player(pg.sprite.Sprite):
 
         self.rect.center = (250, MAP_HEIGHT - 85)
         self.pos = vec(250, MAP_HEIGHT - 85) # Position of player
-        #self.rect.center = (9100, MAP_HEIGHT - 85)
-        #self.pos = vec(9100, MAP_HEIGHT - 85) # Position of player
+        #self.rect.center = (8000, MAP_HEIGHT - 85)
+        #self.pos = vec(8000, MAP_HEIGHT - 85) # Position of player
         self.vel = vec(0, 0) # Velocity of player
         self.acc = vec(0, 0) # Acceleration of player
 
@@ -146,9 +146,9 @@ class Player(pg.sprite.Sprite):
             self.isRight = True
             self.acc.x = PLAYER_ACC
 
-        # apply friction
+        # Apply friction
         self.acc.x += self.vel.x * PLAYER_FRICTION
-        # equations of motion
+        # Equations of motion
         self.vel += self.acc
         if abs(self.vel.x) < 0.1:
             self.vel.x = 0

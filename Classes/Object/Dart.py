@@ -45,12 +45,12 @@ class Dart(pg.sprite.Sprite):
             self.image = self.dart_list[0]
             self.rect.x += 20
 
-            if self.rect.x - self.pos_x > 1000:
+            if self.rect.x - self.pos_x > 500:
                 self.kill() 
 
         else:
             self.image = self.dart_list[1]
             self.rect.x -= 20
 
-            if self.pos_x - self.rect.x > 1000:
+            if self.pos_x - self.rect.x > 500:
                 self.kill() 

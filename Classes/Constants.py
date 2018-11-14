@@ -12,7 +12,7 @@ TITLE = "Jumpy Cat"
 FULL_TITLE = "Jumpy Cat - Assignment 3 - Group 4"
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
-MAP_WIDTH = 10000
+MAP_WIDTH = 10300
 MAP_HEIGHT = 1080
 FPS = 60
 FONT_NAME = "VNI-Lithos"
@@ -38,6 +38,7 @@ ITEM_DIR = "./Resources/Sprites/Item/"
 BIRD_DIR = "./Resources/Sprites/Bird/"
 DRAGONFLY_DIR = "./Resources/Sprites/Dragonfly/"
 CHICKEN_DIR = "./Resources/Sprites/Chicken/"
+SNAKE_DIR = "./Resources/Sprites/Snake/"
 
 # Player properties
 PLAYER_ACC = 0.7 #0.5
@@ -55,8 +56,9 @@ GROUND_LIST_TYPE1 = [(0, MAP_HEIGHT - 85),
                     (1022 * 5, MAP_HEIGHT - 85),
                     #(1022 * 6, MAP_HEIGHT - 85),
                     (1022 * 7 - 100, MAP_HEIGHT - 85),
-                    (1022 * 8 + 140, MAP_HEIGHT - 85),
-                    (1022 * 9 - 200, MAP_HEIGHT - 85),]
+                    (1022 * 8 + 250, MAP_HEIGHT - 85),
+                    (1022 * 9 - 200, MAP_HEIGHT - 85),
+                    (1022 * 10 - 200, MAP_HEIGHT - 85)]
 
 GROUND_LIST_TYPE2 = [(3660, MAP_HEIGHT * 0.6 - 550),
                     (4100, MAP_HEIGHT * 0.6 - 550),
@@ -96,8 +98,8 @@ GROUND_LIST_TYPE4 = [(2180, MAP_HEIGHT * 0.45, 4, False, False, 2),
                     (5790, MAP_HEIGHT * 0.6, 4),
                     (5590, MAP_HEIGHT * 0.75, 4, False, False, 3),
                     (6150, MAP_HEIGHT * 0.44, 4, False, True), # can move up down
-                    (9000, MAP_HEIGHT * 0.57, 4, False, False, 3),
-                    (9400, MAP_HEIGHT * 0.57, 4, False, False, 3)] 
+                    (8000, MAP_HEIGHT * 0.75, 4, False, False, 1),
+                    (9200, MAP_HEIGHT * 0.57, 4, False, False, 3, 1)] 
 
 # Number of clouds
 CLOUD_NUMBER = 30
@@ -117,7 +119,7 @@ COIN_LIST = [(475, MAP_HEIGHT- 225),
 FLAG_LIST = [(50, MAP_HEIGHT - 320, True, 1),
             (2800, MAP_HEIGHT - 320),
             (5200, MAP_HEIGHT - 320),
-            (8400, MAP_HEIGHT - 320),
+            (7800, MAP_HEIGHT - 320),
             #(9700, MAP_HEIGHT - 320, True, 2),
             ]
 
@@ -163,6 +165,9 @@ CHICKEN_LIST = [(1500, MAP_HEIGHT * 0.86),
                 (4140, 10),  # On sky
                 (5600, MAP_HEIGHT * 0.86),
                 (7550, MAP_HEIGHT * 0.86)]
+
+# List of snakes position
+SNAKE_LIST = [(9250, MAP_HEIGHT * 0.88)]
 
 # Colors
 WHITE = (255, 255, 255)

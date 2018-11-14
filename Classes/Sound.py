@@ -15,6 +15,9 @@ class Sound:
         self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
         self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
 
+        self.arrowSound = pg.mixer.Sound(SOUND_DIR + "arrow.ogg")
+        self.chooseSound = pg.mixer.Sound(SOUND_DIR + "choose.ogg")
+
         self.jumpSound = pg.mixer.Sound(SOUND_DIR + "jump.wav")
         self.coinSound = pg.mixer.Sound(SOUND_DIR + "coin.wav") 
         self.dartSound = pg.mixer.Sound(SOUND_DIR + "dart.wav")  
@@ -25,6 +28,9 @@ class Sound:
         self.dragonflySound = pg.mixer.Sound(SOUND_DIR + "dragonfly.wav")  
         self.chickenSound = pg.mixer.Sound(SOUND_DIR + "chicken.wav")  
         self.birdSound = pg.mixer.Sound(SOUND_DIR + "bird.wav")  
+        self.snakeSound = pg.mixer.Sound(SOUND_DIR + "snake.ogg")
+
+        self.dartHitSnakeSound = pg.mixer.Sound(SOUND_DIR + "dart_hit_snake.ogg")
 
     def playBgMusic(self):
         self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
@@ -37,6 +43,14 @@ class Sound:
     def musicFadeOut(self):
         pg.mixer.music.fadeout(500)
 
+    def playArrowSound(self):
+        self.arrowSound.stop()
+        self.arrowSound.play()
+
+    def playChooseSound(self):
+        self.chooseSound.stop()
+        self.chooseSound.play()
+        
     def playJumpSound(self):
         self.jumpSound.stop()
         self.jumpSound.play()
@@ -72,4 +86,11 @@ class Sound:
     def playBirdSound(self):
         self.birdSound.stop()
         self.birdSound.play()
+
+    def playSnakeSound(self):
+        self.snakeSound.stop()
+        self.snakeSound.play()
         
+    def playDartHitSnakeSound(self):
+        self.dartHitSnakeSound.stop()
+        self.dartHitSnakeSound.play()

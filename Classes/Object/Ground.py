@@ -14,7 +14,7 @@ from Classes.Constants import GROUND_DIR, BLACK
 from random import choice
 
 class Ground(pg.sprite.Sprite):
-    def __init__(self, game, pos_x, pos_y, type = 0, canMoveX = False, canMoveY = False, boxType = 0, boxDropForBoss = False):
+    def __init__(self, game, pos_x, pos_y, type = 0, canMoveX = False, canMoveY = False, boxType = 0, boxDropForBoss = 0):
         self.groups = game.all_sprites, game.grounds
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -90,9 +90,18 @@ class Ground(pg.sprite.Sprite):
                 if self.pos_y - self.rect.y > 200:
                     self.isMoveDown = True
 
-        # Item drop from sky to ground - For attacking boss
-        if self.boxDropForBoss:
-            pass
+        ### Item drop from sky to ground - For attacking boss
+        # self.boxDropForBoss = 0 : nothing
+        # self.boxDropForBoss = 1 : has Box
+        # self.boxDropForBoss = 2 : wait time then drop box from sky
+        if self.boxDropForBoss == 2:
+            if self.game.player.dart == 0:
+                now = pg.time.get_ticks()
 
+                if now - self.last_update > 100:
+                    Box(self.game, self.pos_x + 70, -300, 3)
+
+                    self.last_update = now
+                    self.boxDropForBoss = 1
 
 

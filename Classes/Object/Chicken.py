@@ -74,7 +74,7 @@ class Chicken(pg.sprite.Sprite):
     def update(self):
         now = pg.time.get_ticks() # Count time to change frames
 
-        self.pos.y = self.pos.y + self.movy   
+        self.pos.y += self.movy   
 
         if self.isRight:
             self.pos.x += self.speed
