@@ -12,8 +12,8 @@ from Classes.Constants import *
 
 class Sound:
     def __init__(self):
-        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
-        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
+        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.mp3")
+        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.mp3")
 
         self.arrowSound = pg.mixer.Sound(SOUND_DIR + "arrow.ogg")
         self.chooseSound = pg.mixer.Sound(SOUND_DIR + "choose.ogg")
@@ -33,11 +33,11 @@ class Sound:
         self.dartHitSnakeSound = pg.mixer.Sound(SOUND_DIR + "dart_hit_snake.ogg")
 
     def playBgMusic(self):
-        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.ogg")
+        self.bgMusic = pg.mixer.music.load(SOUND_DIR + "bg_music.mp3")
         pg.mixer.music.play(-1)
 
     def playIntroMusic(self):
-        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.ogg")
+        self.introMusic = pg.mixer.music.load(SOUND_DIR + "intro_music.mp3")
         pg.mixer.music.play(-1)
 
     def musicFadeOut(self):

@@ -54,23 +54,6 @@ class Chicken(pg.sprite.Sprite):
         for img in range(0, len(self.run_frame_r)):
             self.run_frame_l.append(pg.transform.flip(self.run_frame_r[img], True, False))
 
-        # Stop state
-        self.stop_frame_r = [pg.transform.scale(pg.image.load(CHICKEN_DIR + "Chicken_7.png"), (int(243 * 0.3), int(300 * 0.3))),
-                            pg.transform.scale(pg.image.load(CHICKEN_DIR + "Chicken_8.png"), (int(269 * 0.3), int(311 * 0.3))),
-                            pg.transform.scale(pg.image.load(CHICKEN_DIR + "Chicken_9.png"), (int(262 * 0.3), int(235 * 0.3)))]
-
-        self.stop_frame_l = []
-        for img in range(0, len(self.stop_frame_r)):
-            self.stop_frame_l.append(pg.transform.flip(self.stop_frame_r[img], True, False))
-
-        # Idle state
-        self.idle_frame_r = [pg.transform.scale(pg.image.load(CHICKEN_DIR + "Chicken_10.png"), (int(307 * 0.3), int(328 * 0.3))),
-                            pg.transform.scale(pg.image.load(CHICKEN_DIR + "Chicken_11.png"), (int(307 * 0.3), int(328 * 0.3)))]
-
-        self.idle_frame_l = []
-        for img in range(0, len(self.idle_frame_r)):
-            self.idle_frame_l.append(pg.transform.flip(self.idle_frame_r[img], True, False))
-
     def update(self):
         now = pg.time.get_ticks() # Count time to change frames
 

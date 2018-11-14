@@ -70,16 +70,6 @@ class Snake(pg.sprite.Sprite):
         for img in range(0, len(self.attack_frame_l)):
             self.attack_frame_r.append(pg.transform.flip(self.attack_frame_l[img], True, False))
 
-        # Shoot state
-        self.shoot_frame_l = [pg.image.load(SNAKE_DIR + "Shoot (1).png"), pg.image.load(SNAKE_DIR + "Shoot (2).png"),
-                            pg.image.load(SNAKE_DIR + "Shoot (3).png"), pg.image.load(SNAKE_DIR + "Shoot (4).png"),
-                            pg.image.load(SNAKE_DIR + "Shoot (5).png"), pg.image.load(SNAKE_DIR + "Shoot (6).png"),
-                            pg.image.load(SNAKE_DIR + "Shoot (7).png"), pg.image.load(SNAKE_DIR + "Shoot (8).png"),
-                            pg.image.load(SNAKE_DIR + "Shoot (9).png")]
-        self.shoot_frame_r = []
-        for img in range(0, len(self.shoot_frame_l)):
-            self.shoot_frame_r.append(pg.transform.flip(self.shoot_frame_l[img], True, False))
-
         # Die state
         self.die_frame_l = [pg.image.load(SNAKE_DIR + "Die (1).png"), pg.image.load(SNAKE_DIR + "Die (2).png"),
                             pg.image.load(SNAKE_DIR + "Die (3).png"), pg.image.load(SNAKE_DIR + "Die (4).png"),
@@ -232,7 +222,7 @@ class Snake(pg.sprite.Sprite):
                 
                     self.rect = self.image.get_rect()
                 
-                    self.rect.x = self.pos.x
+                    self.rect.x = self.pos.x - 75
 
                     if self.current_frame == 1:
                         self.rect.y = self.pos.y
