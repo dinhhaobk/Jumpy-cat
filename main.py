@@ -243,22 +243,23 @@ class Game:
         box_list = pg.sprite.spritecollide(self.player, self.boxs, False)
         for box in box_list:
             box_hit_ground = pg.sprite.spritecollide(box, self.grounds, False)
-            if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):         
-                # Get the item from box
-                box.kill()
+            if (self.player.rect.bottom <= box.rect.top + 20) and (self.player.pos.x < box.rect.right + 20) and (self.player.pos.x > box.rect.left - 20):                        
                 if box_hit_ground:
-                    if box_hit_ground[0].type == 4 and box_hit_ground[0].boxDropForBoss == 1: # Drop item - for boss
+                    box.kill()
+                    # Drop item - for boss
+                    if box_hit_ground[0].type == 4 and box_hit_ground[0].boxDropForBoss == 1: 
                         box_hit_ground[0].boxDropForBoss = 2
-                if box.type == 4:
-                    box.type = choice([1, 2, 3])
-                if box.type == 1:
-                    self.player.life += 1 # +1 life
-                if box.type == 2:
-                    self.player.isShield = True # Active shield
-                if box.type == 3:
-                    self.player.dart += 1 # +1 dart
-                if self.optionSound:
-                    self.sound.playItemSound()           
+                    # Get the item from box    
+                    if box.type == 4:
+                        box.type = choice([1, 2, 3])
+                    if box.type == 1:
+                        self.player.life += 1 # +1 life
+                    if box.type == 2:
+                        self.player.isShield = True # Active shield
+                    if box.type == 3:
+                        self.player.dart += 1 # +1 dart
+                    if self.optionSound:
+                        self.sound.playItemSound()           
 
             elif self.player.rect.left < box.rect.left:
                 self.player.rect.right = box.rect.left
@@ -379,7 +380,7 @@ class Game:
                     if self.optionSound:
                         self.sound.playDartHitSnakeSound()             
                     if snake.life == 0:
-                        snake.kill()
+                        snake.isDie = True
                         Flag(self, 10150, MAP_HEIGHT - 335, True, 2)
                         self.score += 500
                         if self.optionSound:
@@ -398,6 +399,12 @@ class Game:
             if box_hit_ground_list:
                 if box.rect.bottom > box_hit_ground_list[0].rect.top:
                     box.rect.bottom = box_hit_ground_list[0].rect.top
+
+        ### Check if snake hits a ground
+        for snake in self.snakes:
+            snake_hit_ground_list = pg.sprite.spritecollide(snake, self.grounds, False)
+            if snake_hit_ground_list:
+                snake.rect.bottom = snake_hit_ground_list[0].rect.top
 
     # Game loop - draw
     def draw(self):    
