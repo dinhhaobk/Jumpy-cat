@@ -332,7 +332,7 @@ class Game:
 
         # Check if player hits a snake
         isHitSnake = pg.sprite.spritecollide(self.player, self.snakes, False, pg.sprite.collide_circle)
-        if isHitSnake:               
+        if isHitSnake and not isHitSnake[0].isDie:               
             # Return to checkpoint even have shield and lose shield
             self.player.pos = self.player.checkPoint 
             self.player.life -= 1
@@ -377,6 +377,10 @@ class Game:
                 dart.kill()
                 for snake in self.snakes:
                     snake.life -= 1
+                    if self.player.pos.x > isDartHitSnake[0].pos.x and not isDartHitSnake[0].isRight:
+                        isDartHitSnake[0].isRight = True
+                    elif self.player.pos.x < isDartHitSnake[0].pos.x and isDartHitSnake[0].isRight:
+                        isDartHitSnake[0].isRight = False
                     if self.optionSound:
                         self.sound.playDartHitSnakeSound()             
                     if snake.life == 0:
